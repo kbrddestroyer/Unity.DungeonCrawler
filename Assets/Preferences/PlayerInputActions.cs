@@ -186,6 +186,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Flahlight"",
+            ""id"": ""27107061-cefc-4daf-b3d9-4b5b3adfb3f5"",
+            ""actions"": [
+                {
+                    ""name"": ""Flashlight Mouse"",
+                    ""type"": ""Value"",
+                    ""id"": ""617642d3-51ca-4b23-9bf3-d96793cad2c6"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""24a990e3-f059-4c78-a075-2aa4a19760f5"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flashlight Mouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -196,12 +224,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Sprint
         m_Sprint = asset.FindActionMap("Sprint", throwIfNotFound: true);
         m_Sprint_Sprint = m_Sprint.FindAction("Sprint", throwIfNotFound: true);
+        // Flahlight
+        m_Flahlight = asset.FindActionMap("Flahlight", throwIfNotFound: true);
+        m_Flahlight_FlashlightMouse = m_Flahlight.FindAction("Flashlight Mouse", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
     {
         UnityEngine.Debug.Assert(!m_PlayerMove.enabled, "This will cause a leak and performance issues, PlayerInputActions.PlayerMove.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Sprint.enabled, "This will cause a leak and performance issues, PlayerInputActions.Sprint.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Flahlight.enabled, "This will cause a leak and performance issues, PlayerInputActions.Flahlight.Disable() has not been called.");
     }
 
     /// <summary>
@@ -465,6 +497,102 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="SprintActions" /> instance referencing this action map.
     /// </summary>
     public SprintActions @Sprint => new SprintActions(this);
+
+    // Flahlight
+    private readonly InputActionMap m_Flahlight;
+    private List<IFlahlightActions> m_FlahlightActionsCallbackInterfaces = new List<IFlahlightActions>();
+    private readonly InputAction m_Flahlight_FlashlightMouse;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Flahlight".
+    /// </summary>
+    public struct FlahlightActions
+    {
+        private @PlayerInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public FlahlightActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Flahlight/FlashlightMouse".
+        /// </summary>
+        public InputAction @FlashlightMouse => m_Wrapper.m_Flahlight_FlashlightMouse;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Flahlight; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="FlahlightActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(FlahlightActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="FlahlightActions" />
+        public void AddCallbacks(IFlahlightActions instance)
+        {
+            if (instance == null || m_Wrapper.m_FlahlightActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_FlahlightActionsCallbackInterfaces.Add(instance);
+            @FlashlightMouse.started += instance.OnFlashlightMouse;
+            @FlashlightMouse.performed += instance.OnFlashlightMouse;
+            @FlashlightMouse.canceled += instance.OnFlashlightMouse;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="FlahlightActions" />
+        private void UnregisterCallbacks(IFlahlightActions instance)
+        {
+            @FlashlightMouse.started -= instance.OnFlashlightMouse;
+            @FlashlightMouse.performed -= instance.OnFlashlightMouse;
+            @FlashlightMouse.canceled -= instance.OnFlashlightMouse;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="FlahlightActions.UnregisterCallbacks(IFlahlightActions)" />.
+        /// </summary>
+        /// <seealso cref="FlahlightActions.UnregisterCallbacks(IFlahlightActions)" />
+        public void RemoveCallbacks(IFlahlightActions instance)
+        {
+            if (m_Wrapper.m_FlahlightActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="FlahlightActions.AddCallbacks(IFlahlightActions)" />
+        /// <seealso cref="FlahlightActions.RemoveCallbacks(IFlahlightActions)" />
+        /// <seealso cref="FlahlightActions.UnregisterCallbacks(IFlahlightActions)" />
+        public void SetCallbacks(IFlahlightActions instance)
+        {
+            foreach (var item in m_Wrapper.m_FlahlightActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_FlahlightActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="FlahlightActions" /> instance referencing this action map.
+    /// </summary>
+    public FlahlightActions @Flahlight => new FlahlightActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player Move" which allows adding and removing callbacks.
     /// </summary>
@@ -494,5 +622,20 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSprint(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Flahlight" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="FlahlightActions.AddCallbacks(IFlahlightActions)" />
+    /// <seealso cref="FlahlightActions.RemoveCallbacks(IFlahlightActions)" />
+    public interface IFlahlightActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Flashlight Mouse" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFlashlightMouse(InputAction.CallbackContext context);
     }
 }

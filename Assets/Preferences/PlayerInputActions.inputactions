@@ -100,6 +100,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Flahlight",
+            "id": "27107061-cefc-4daf-b3d9-4b5b3adfb3f5",
+            "actions": [
+                {
+                    "name": "Flashlight Mouse",
+                    "type": "Value",
+                    "id": "617642d3-51ca-4b23-9bf3-d96793cad2c6",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "24a990e3-f059-4c78-a075-2aa4a19760f5",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Flashlight Mouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
