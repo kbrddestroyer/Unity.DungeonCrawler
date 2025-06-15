@@ -4,39 +4,67 @@ using UnityEngine.InputSystem;
 
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class PlayerMover : MonoBehaviour
 {
+    // Animator pre-hashed keys
     private static readonly int Speed = Animator.StringToHash("speed");
-    
+    private static readonly int IsRunning = Animator.StringToHash("isRunning");
+
 #if UNITY_6000_0_OR_NEWER
     [Header("Input System")]
-    [SerializeField] private InputAction playerInputAction;
+    [SerializeField] private InputActionAsset playerInputAction;
 #endif
     [Header("Preferences")]
     [SerializeField, Range(0f, 10f)] private float fSpeed = 1.0f;
+    [SerializeField, Range(0f, 10f)] private float fRunSpeed = 1.0f;
     [Header("Animation")]
     [SerializeField] private Animator animator;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
+    private bool _flipState;
+    private float _fCurrentSpeed;
+    
+    
     #if UNITY_6000_0_OR_NEWER
     private void OnEnable() => playerInputAction.Enable();
     private void OnDisable() => playerInputAction.Disable();
     #endif
     
+#if UNITY_6000_0_OR_NEWER
+    private void ProcessSprint(InputAction.CallbackContext context)
+    {
+        var isInSprintState = context.ReadValue<float>() > 0;
+        _fCurrentSpeed = isInSprintState ? fRunSpeed : fSpeed;
+        
+        animator.SetBool(IsRunning, isInSprintState);
+    }
+#endif
+    
     private void Awake()
     {
-        #if UNITY_6000_0_OR_NEWER
-        #endif
+#if UNITY_6000_0_OR_NEWER
+        playerInputAction["Sprint"].performed += ProcessSprint;
+#endif
+        _fCurrentSpeed = fSpeed;
     }
 
     private void Update()
     {
 #if UNITY_6000_0_OR_NEWER
-        var vMovement2D = playerInputAction.ReadValue<Vector2>();
+        var vMovement2D = playerInputAction["Player Move"].ReadValue<Vector2>();
 #else
         var vMovement2D = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));          // Legacy input system, compatible with older versions of Unity Editor
 #endif
+        if (vMovement2D.x != 0)
+        {
+            _flipState = vMovement2D.x < 0;
+        }
+
+        if (spriteRenderer.flipX != _flipState)
+            spriteRenderer.flipX = _flipState;
         
-        transform.Translate(vMovement2D * (fSpeed * Time.deltaTime), Space.World);
+        transform.Translate(vMovement2D * (_fCurrentSpeed * Time.deltaTime), Space.World);
         animator.SetFloat(Speed,  vMovement2D.magnitude);
     }
     
@@ -45,6 +73,8 @@ public class PlayerMover : MonoBehaviour
     {
         if (!animator) 
             animator = GetComponent<Animator>();
+        if (!spriteRenderer)
+            spriteRenderer = GetComponent<SpriteRenderer>();
     }    
 #endif
 }
