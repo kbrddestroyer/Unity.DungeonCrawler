@@ -150,3 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e46239ca721af84da81eb857b189b68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  fSmoothness: 2.5
+  fBoundRadius: 2.15
+  fStopRadius: 0.05
