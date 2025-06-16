@@ -14,18 +14,25 @@ namespace UI
         [SerializeField, Range(0f, 5f)] private float fBoundRadius;
         [SerializeField, Range(0f, 5f)] private float fStopRadius;
         
-        private bool _shouldMoveSelf = false;
-        
+        private bool _shouldMoveSelf;
+
+        public GameObject FocusPoint { get; set; }
+
+        private void Start()
+        {
+            FocusPoint = player.gameObject;
+        }
+
         private void Update()
         {
-            var fDistance = Vector2.Distance(player.transform.position, transform.position);
+            var fDistance = Vector2.Distance(FocusPoint.transform.position, transform.position);
             if (!_shouldMoveSelf)
             {
                 _shouldMoveSelf = fDistance > fBoundRadius;
             }
             else
             {
-                var vPrecomputed2D = Vector2.Lerp(transform.position, player.transform.position, Time.deltaTime * fSmoothness);
+                var vPrecomputed2D = Vector2.Lerp(transform.position, FocusPoint.transform.position, Time.deltaTime * fSmoothness);
                 transform.position = new Vector3(vPrecomputed2D.x, vPrecomputed2D.y, transform.position.z);
                 _shouldMoveSelf = fDistance > fStopRadius;
             }
