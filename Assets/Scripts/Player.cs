@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField, Range(0f, 10f)] private float baseAttackBaseRadius;
     [SerializeField, Range(0f, 10f)] private float baseAttackBaseOffset;
     [SerializeField, Range(0f, 10f)] private float splashAttackBaseRadius;
+    [SerializeField] private LayerMask enemy;
     
     public bool InWeapon { get; private set; }
     public bool InRoll { get; set; }
@@ -19,9 +20,20 @@ public class Player : MonoBehaviour
     public void ToggleWeapon() => InWeapon = !InWeapon;
     public void StopRoll() => InRoll = false;
 
-    public void ProcessAttack()
+    public void Attack()
     {
+        Debug.Log("Attacking!");
+        var results = Physics2D.OverlapCircleAll(transform.position, baseAttackBaseRadius, enemy);
         
+        foreach (var enemyCollider in results)
+        {
+            var enemyScriptRef = enemyCollider.gameObject.GetComponent<EnemyBase>();
+
+            if (enemyScriptRef)
+            {
+                enemyScriptRef.ApplyDamage(baseDamage);
+            }
+        }
     }
     
 #if UNITY_EDITOR
