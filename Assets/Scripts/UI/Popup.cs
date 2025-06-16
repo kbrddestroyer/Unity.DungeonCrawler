@@ -18,6 +18,6 @@ public class Popup : MonoBehaviour
         StartCoroutine(ScheduleDeath());
     }
     
-    public void SetText(string displayText) => this.text.text = displayText;
+    public void SetText(string displayText) => text.text = displayText;
 }
 
