@@ -13,6 +13,8 @@ public class PlayerMover : MonoBehaviour
     private static readonly int UseVerticalLayout = Animator.StringToHash("useVerticalLayout");
     private static readonly int Weapon = Animator.StringToHash("inWeaponMode");
     private static readonly int Attack = Animator.StringToHash("attack");
+    private static readonly int Roll = Animator.StringToHash("roll");
+    private static readonly int IsUp = Animator.StringToHash("isUp");
 
 #if UNITY_6000_0_OR_NEWER
     [Header("Input System")]
@@ -24,9 +26,10 @@ public class PlayerMover : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [Header("Requirements")]
+    [SerializeField] private Player player;
     
     private float _fCurrentSpeed;
-    private bool _weaponEnabled;
     
     #if UNITY_6000_0_OR_NEWER
     private void OnEnable() => playerInputAction.Enable();
@@ -45,18 +48,25 @@ public class PlayerMover : MonoBehaviour
     private void ProcessDrawWeapon(InputAction.CallbackContext context)
     {
         if (context.ReadValue<float>() == 0) return;
-        _weaponEnabled = !_weaponEnabled;
-        animator.SetBool(Weapon, _weaponEnabled);
-        
-        
-        Debug.Log(_weaponEnabled);
+
+        player.ToggleWeapon();
+        animator.SetBool(Weapon, player.InWeapon);
     }
 
     private void ProcessAttack(InputAction.CallbackContext context)
     {
         if (context.ReadValue<float>() == 0) return;
         
-        animator.SetTrigger(Attack);
+        if (player.InWeapon)
+            animator.SetTrigger(Attack);
+    }
+
+    private void ProcessRoll(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() == 0 || player.InRoll) return;
+        
+        player.InRoll = true;
+        animator.SetBool(Roll, player.InRoll);
     }
 #endif
     
@@ -66,6 +76,7 @@ public class PlayerMover : MonoBehaviour
         playerInputAction["Sprint"].performed += ProcessSprint;
         playerInputAction["Draw Weapon"].performed += ProcessDrawWeapon;
         playerInputAction["Attack"].performed += ProcessAttack;
+        playerInputAction["Roll"].performed += ProcessRoll;
 #endif
         _fCurrentSpeed = fSpeed;
     }
@@ -84,7 +95,8 @@ public class PlayerMover : MonoBehaviour
 
         if (vMovement2D.magnitude != 0)
         {
-            animator.SetBool(UseVerticalLayout, vMovement2D.y > 0);
+            animator.SetBool(UseVerticalLayout, Math.Abs(vMovement2D.y) > Math.Abs(vMovement2D.x));
+            animator.SetBool(IsUp, vMovement2D.y > 0);
         }
         
         transform.Translate(vMovement2D * (_fCurrentSpeed * Time.deltaTime), Space.World);
@@ -98,6 +110,8 @@ public class PlayerMover : MonoBehaviour
             animator = GetComponent<Animator>();
         if (!spriteRenderer)
             spriteRenderer = GetComponent<SpriteRenderer>();
+        if (!player)
+            player = GetComponent<Player>();
     }    
 #endif
 }
