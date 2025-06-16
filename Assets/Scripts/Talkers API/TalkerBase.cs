@@ -8,8 +8,8 @@ using UnityEngine.InputSystem;
 
 public class TalkerBase : MonoBehaviour
 {
-    private static bool globalLock = false;
-    
+    public static bool GlobalLock { get; private set; }
+
     [Header("Settings")] 
     [SerializeField, Range(0f, 1f)] private float characterDelay;
 
@@ -84,6 +84,7 @@ public class TalkerBase : MonoBehaviour
 
     private IEnumerator OutputSequence()
     {
+        GlobalLock = true;
         _startFocus = _mover.FocusPoint;
         guiFX.SetActive(true);
 
@@ -104,10 +105,12 @@ public class TalkerBase : MonoBehaviour
         
         guiFX.SetActive(false);
         onFinishDialogue.Invoke();
+        GlobalLock = false;
     }
 
     protected void TriggerTextOutput()
     {
-        StartCoroutine(OutputSequence());
+        if (!GlobalLock)
+            StartCoroutine(OutputSequence());
     }
 }
