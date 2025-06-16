@@ -99,6 +99,42 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press,Hold"",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""56da9607-75c6-4bec-8968-fcccbf000924"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Draw Weapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""5debf663-7858-4fa0-8b9c-92d280db0426"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""a76c95ac-3c60-47b3-aa24-f7e0e9877860"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Roll"",
+                    ""type"": ""Button"",
+                    ""id"": ""ac6213f5-2cc8-475c-925f-fed4d715eea4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -156,32 +192,48 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Player Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                }
-            ]
-        },
-        {
-            ""name"": ""Sprint"",
-            ""id"": ""db122b35-a6a3-4afc-91b4-8d47f6c502de"",
-            ""actions"": [
-                {
-                    ""name"": ""Sprint"",
-                    ""type"": ""Button"",
-                    ""id"": ""ad7643c1-799e-460f-99bb-ddcf9fa230ff"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
+                },
                 {
                     ""name"": """",
-                    ""id"": ""00afe75f-57f4-4eb0-8614-1a036dbdd86b"",
+                    ""id"": ""8f759a8b-b5a5-4459-9b80-5816756d67ea"",
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4f5f37ac-6680-4411-b657-8d2dbd59f892"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Draw Weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""183f2151-b8e2-407f-8982-592210e567af"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3afa5620-c6c5-4a16-ad65-84a19bdd9832"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -221,9 +273,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Player Move
         m_PlayerMove = asset.FindActionMap("Player Move", throwIfNotFound: true);
         m_PlayerMove_PlayerMove = m_PlayerMove.FindAction("Player Move", throwIfNotFound: true);
-        // Sprint
-        m_Sprint = asset.FindActionMap("Sprint", throwIfNotFound: true);
-        m_Sprint_Sprint = m_Sprint.FindAction("Sprint", throwIfNotFound: true);
+        m_PlayerMove_Sprint = m_PlayerMove.FindAction("Sprint", throwIfNotFound: true);
+        m_PlayerMove_DrawWeapon = m_PlayerMove.FindAction("Draw Weapon", throwIfNotFound: true);
+        m_PlayerMove_Attack = m_PlayerMove.FindAction("Attack", throwIfNotFound: true);
+        m_PlayerMove_Roll = m_PlayerMove.FindAction("Roll", throwIfNotFound: true);
         // Flahlight
         m_Flahlight = asset.FindActionMap("Flahlight", throwIfNotFound: true);
         m_Flahlight_FlashlightMouse = m_Flahlight.FindAction("Flashlight Mouse", throwIfNotFound: true);
@@ -232,7 +285,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     ~@PlayerInputActions()
     {
         UnityEngine.Debug.Assert(!m_PlayerMove.enabled, "This will cause a leak and performance issues, PlayerInputActions.PlayerMove.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_Sprint.enabled, "This will cause a leak and performance issues, PlayerInputActions.Sprint.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Flahlight.enabled, "This will cause a leak and performance issues, PlayerInputActions.Flahlight.Disable() has not been called.");
     }
 
@@ -310,6 +362,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerMove;
     private List<IPlayerMoveActions> m_PlayerMoveActionsCallbackInterfaces = new List<IPlayerMoveActions>();
     private readonly InputAction m_PlayerMove_PlayerMove;
+    private readonly InputAction m_PlayerMove_Sprint;
+    private readonly InputAction m_PlayerMove_DrawWeapon;
+    private readonly InputAction m_PlayerMove_Attack;
+    private readonly InputAction m_PlayerMove_Roll;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player Move".
     /// </summary>
@@ -325,6 +381,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerMove/PlayerMove".
         /// </summary>
         public InputAction @PlayerMove => m_Wrapper.m_PlayerMove_PlayerMove;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerMove/Sprint".
+        /// </summary>
+        public InputAction @Sprint => m_Wrapper.m_PlayerMove_Sprint;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerMove/DrawWeapon".
+        /// </summary>
+        public InputAction @DrawWeapon => m_Wrapper.m_PlayerMove_DrawWeapon;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerMove/Attack".
+        /// </summary>
+        public InputAction @Attack => m_Wrapper.m_PlayerMove_Attack;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerMove/Roll".
+        /// </summary>
+        public InputAction @Roll => m_Wrapper.m_PlayerMove_Roll;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -354,6 +426,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PlayerMove.started += instance.OnPlayerMove;
             @PlayerMove.performed += instance.OnPlayerMove;
             @PlayerMove.canceled += instance.OnPlayerMove;
+            @Sprint.started += instance.OnSprint;
+            @Sprint.performed += instance.OnSprint;
+            @Sprint.canceled += instance.OnSprint;
+            @DrawWeapon.started += instance.OnDrawWeapon;
+            @DrawWeapon.performed += instance.OnDrawWeapon;
+            @DrawWeapon.canceled += instance.OnDrawWeapon;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
+            @Roll.started += instance.OnRoll;
+            @Roll.performed += instance.OnRoll;
+            @Roll.canceled += instance.OnRoll;
         }
 
         /// <summary>
@@ -368,6 +452,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PlayerMove.started -= instance.OnPlayerMove;
             @PlayerMove.performed -= instance.OnPlayerMove;
             @PlayerMove.canceled -= instance.OnPlayerMove;
+            @Sprint.started -= instance.OnSprint;
+            @Sprint.performed -= instance.OnSprint;
+            @Sprint.canceled -= instance.OnSprint;
+            @DrawWeapon.started -= instance.OnDrawWeapon;
+            @DrawWeapon.performed -= instance.OnDrawWeapon;
+            @DrawWeapon.canceled -= instance.OnDrawWeapon;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
+            @Roll.started -= instance.OnRoll;
+            @Roll.performed -= instance.OnRoll;
+            @Roll.canceled -= instance.OnRoll;
         }
 
         /// <summary>
@@ -401,102 +497,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="PlayerMoveActions" /> instance referencing this action map.
     /// </summary>
     public PlayerMoveActions @PlayerMove => new PlayerMoveActions(this);
-
-    // Sprint
-    private readonly InputActionMap m_Sprint;
-    private List<ISprintActions> m_SprintActionsCallbackInterfaces = new List<ISprintActions>();
-    private readonly InputAction m_Sprint_Sprint;
-    /// <summary>
-    /// Provides access to input actions defined in input action map "Sprint".
-    /// </summary>
-    public struct SprintActions
-    {
-        private @PlayerInputActions m_Wrapper;
-
-        /// <summary>
-        /// Construct a new instance of the input action map wrapper class.
-        /// </summary>
-        public SprintActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        /// <summary>
-        /// Provides access to the underlying input action "Sprint/Sprint".
-        /// </summary>
-        public InputAction @Sprint => m_Wrapper.m_Sprint_Sprint;
-        /// <summary>
-        /// Provides access to the underlying input action map instance.
-        /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_Sprint; }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
-        public void Enable() { Get().Enable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
-        public void Disable() { Get().Disable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
-        public bool enabled => Get().enabled;
-        /// <summary>
-        /// Implicitly converts an <see ref="SprintActions" /> to an <see ref="InputActionMap" /> instance.
-        /// </summary>
-        public static implicit operator InputActionMap(SprintActions set) { return set.Get(); }
-        /// <summary>
-        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <param name="instance">Callback instance.</param>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
-        /// </remarks>
-        /// <seealso cref="SprintActions" />
-        public void AddCallbacks(ISprintActions instance)
-        {
-            if (instance == null || m_Wrapper.m_SprintActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_SprintActionsCallbackInterfaces.Add(instance);
-            @Sprint.started += instance.OnSprint;
-            @Sprint.performed += instance.OnSprint;
-            @Sprint.canceled += instance.OnSprint;
-        }
-
-        /// <summary>
-        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <remarks>
-        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
-        /// </remarks>
-        /// <seealso cref="SprintActions" />
-        private void UnregisterCallbacks(ISprintActions instance)
-        {
-            @Sprint.started -= instance.OnSprint;
-            @Sprint.performed -= instance.OnSprint;
-            @Sprint.canceled -= instance.OnSprint;
-        }
-
-        /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="SprintActions.UnregisterCallbacks(ISprintActions)" />.
-        /// </summary>
-        /// <seealso cref="SprintActions.UnregisterCallbacks(ISprintActions)" />
-        public void RemoveCallbacks(ISprintActions instance)
-        {
-            if (m_Wrapper.m_SprintActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        /// <summary>
-        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
-        /// </summary>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
-        /// </remarks>
-        /// <seealso cref="SprintActions.AddCallbacks(ISprintActions)" />
-        /// <seealso cref="SprintActions.RemoveCallbacks(ISprintActions)" />
-        /// <seealso cref="SprintActions.UnregisterCallbacks(ISprintActions)" />
-        public void SetCallbacks(ISprintActions instance)
-        {
-            foreach (var item in m_Wrapper.m_SprintActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_SprintActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    /// <summary>
-    /// Provides a new <see cref="SprintActions" /> instance referencing this action map.
-    /// </summary>
-    public SprintActions @Sprint => new SprintActions(this);
 
     // Flahlight
     private readonly InputActionMap m_Flahlight;
@@ -607,14 +607,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPlayerMove(InputAction.CallbackContext context);
-    }
-    /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Sprint" which allows adding and removing callbacks.
-    /// </summary>
-    /// <seealso cref="SprintActions.AddCallbacks(ISprintActions)" />
-    /// <seealso cref="SprintActions.RemoveCallbacks(ISprintActions)" />
-    public interface ISprintActions
-    {
         /// <summary>
         /// Method invoked when associated input action "Sprint" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -622,6 +614,27 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSprint(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Draw Weapon" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDrawWeapon(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAttack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Roll" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRoll(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Flahlight" which allows adding and removing callbacks.

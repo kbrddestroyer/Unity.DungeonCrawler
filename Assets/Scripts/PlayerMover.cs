@@ -10,6 +10,9 @@ public class PlayerMover : MonoBehaviour
     // Animator pre-hashed keys
     private static readonly int Speed = Animator.StringToHash("speed");
     private static readonly int IsRunning = Animator.StringToHash("isRunning");
+    private static readonly int UseVerticalLayout = Animator.StringToHash("useVerticalLayout");
+    private static readonly int Weapon = Animator.StringToHash("inWeaponMode");
+    private static readonly int Attack = Animator.StringToHash("attack");
 
 #if UNITY_6000_0_OR_NEWER
     [Header("Input System")]
@@ -21,10 +24,9 @@ public class PlayerMover : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer spriteRenderer;
-
-    private bool _flipState;
-    private float _fCurrentSpeed;
     
+    private float _fCurrentSpeed;
+    private bool _weaponEnabled;
     
     #if UNITY_6000_0_OR_NEWER
     private void OnEnable() => playerInputAction.Enable();
@@ -39,12 +41,31 @@ public class PlayerMover : MonoBehaviour
         
         animator.SetBool(IsRunning, isInSprintState);
     }
+
+    private void ProcessDrawWeapon(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() == 0) return;
+        _weaponEnabled = !_weaponEnabled;
+        animator.SetBool(Weapon, _weaponEnabled);
+        
+        
+        Debug.Log(_weaponEnabled);
+    }
+
+    private void ProcessAttack(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() == 0) return;
+        
+        animator.SetTrigger(Attack);
+    }
 #endif
     
     private void Awake()
     {
 #if UNITY_6000_0_OR_NEWER
         playerInputAction["Sprint"].performed += ProcessSprint;
+        playerInputAction["Draw Weapon"].performed += ProcessDrawWeapon;
+        playerInputAction["Attack"].performed += ProcessAttack;
 #endif
         _fCurrentSpeed = fSpeed;
     }
@@ -58,11 +79,13 @@ public class PlayerMover : MonoBehaviour
 #endif
         if (vMovement2D.x != 0)
         {
-            _flipState = vMovement2D.x < 0;
+            spriteRenderer.flipX = vMovement2D.x < 0;
         }
 
-        if (spriteRenderer.flipX != _flipState)
-            spriteRenderer.flipX = _flipState;
+        if (vMovement2D.magnitude != 0)
+        {
+            animator.SetBool(UseVerticalLayout, vMovement2D.y > 0);
+        }
         
         transform.Translate(vMovement2D * (_fCurrentSpeed * Time.deltaTime), Space.World);
         animator.SetFloat(Speed,  vMovement2D.magnitude);

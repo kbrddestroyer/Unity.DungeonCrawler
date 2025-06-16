@@ -13,6 +13,42 @@
                     "processors": "",
                     "interactions": "Press,Hold",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "56da9607-75c6-4bec-8968-fcccbf000924",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Draw Weapon",
+                    "type": "Button",
+                    "id": "5debf663-7858-4fa0-8b9c-92d280db0426",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "a76c95ac-3c60-47b3-aa24-f7e0e9877860",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Roll",
+                    "type": "Button",
+                    "id": "ac6213f5-2cc8-475c-925f-fed4d715eea4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -70,32 +106,48 @@
                     "action": "Player Move",
                     "isComposite": false,
                     "isPartOfComposite": true
-                }
-            ]
-        },
-        {
-            "name": "Sprint",
-            "id": "db122b35-a6a3-4afc-91b4-8d47f6c502de",
-            "actions": [
-                {
-                    "name": "Sprint",
-                    "type": "Button",
-                    "id": "ad7643c1-799e-460f-99bb-ddcf9fa230ff",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "00afe75f-57f4-4eb0-8614-1a036dbdd86b",
+                    "id": "8f759a8b-b5a5-4459-9b80-5816756d67ea",
                     "path": "<Keyboard>/shift",
                     "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4f5f37ac-6680-4411-b657-8d2dbd59f892",
+                    "path": "<Keyboard>/r",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Draw Weapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "183f2151-b8e2-407f-8982-592210e567af",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3afa5620-c6c5-4a16-ad65-84a19bdd9832",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Roll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
