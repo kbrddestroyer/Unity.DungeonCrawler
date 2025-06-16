@@ -81,8 +81,21 @@ public class PlayerMover : MonoBehaviour
         _fCurrentSpeed = fSpeed;
     }
 
+    private void FixedUpdate()
+    {
+        if (TalkerBase.GlobalLock)
+        {
+            animator.SetFloat(Speed,  0);
+        }
+    }
+
     private void Update()
     {
+        if (TalkerBase.GlobalLock)
+        {
+            return;
+        }
+        
 #if UNITY_6000_0_OR_NEWER
         var vMovement2D = playerInputAction["Player Move"].ReadValue<Vector2>();
 #else
