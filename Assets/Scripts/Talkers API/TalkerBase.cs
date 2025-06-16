@@ -1,0 +1,113 @@
+using System.Collections;
+using System.Linq;
+using TMPro;
+using UI;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
+
+public class TalkerBase : MonoBehaviour
+{
+    private static bool globalLock = false;
+    
+    [Header("Settings")] 
+    [SerializeField, Range(0f, 1f)] private float characterDelay;
+
+    [SerializeField] private TalkSequence[] sequence;
+
+    [SerializeField] private GameObject guiFX;
+    
+    [SerializeField] private UnityEvent onStartDisplay;
+    [SerializeField] private UnityEvent onCharacterDisplay;
+    [SerializeField] private UnityEvent onStopDisplay;
+    [SerializeField] private UnityEvent onFinishDialogue;
+    
+    [SerializeField] private InputAction mappedInput;
+    
+    private CameraMover _mover;
+    private GameObject _startFocus;
+
+    private bool _skip;
+    
+    private bool Skip {
+        get
+        {
+            var val = _skip;
+            if (_skip)
+                _skip = false;
+            return val;
+        }
+        set => _skip = value;
+    }
+
+    private void ProcessSkip(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() > 0)
+            Skip = true;
+    }
+    
+    private void OnEnable() => mappedInput.Enable();
+    
+    private void OnDisable() => mappedInput.Disable();
+
+    private void Awake() => mappedInput.performed += ProcessSkip;
+    
+    private void Start()
+    {
+        if (!Camera.main) return;
+        
+        _mover = Camera.main.GetComponent<CameraMover>();
+    }
+    
+    private IEnumerator Output(TalkSequence text)
+    {
+        onStartDisplay.Invoke();
+        text.textObject.text = "";
+
+        if (_mover)
+            _mover.FocusPoint = text.focusObject;
+        
+        foreach (var c in text.text)
+        {
+            if (Skip)
+            {
+                text.textObject.text = text.text;
+                break;
+            }
+            text.textObject.text += c;
+            onCharacterDisplay.Invoke();
+            yield return new WaitForSeconds(characterDelay);
+        }
+        
+        onStopDisplay.Invoke();
+    }
+
+    private IEnumerator OutputSequence()
+    {
+        _startFocus = _mover.FocusPoint;
+        guiFX.SetActive(true);
+
+        foreach (var sq in sequence)
+        {
+            yield return Output(sq);
+            while (!Skip)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+            sq.textObject.text = "";
+        }
+            
+        if (_mover)
+        {
+            _mover.FocusPoint = _startFocus;
+        }
+        
+        guiFX.SetActive(false);
+        onFinishDialogue.Invoke();
+    }
+
+    protected void TriggerTextOutput()
+    {
+        StartCoroutine(OutputSequence());
+    }
+}

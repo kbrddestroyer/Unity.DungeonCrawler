@@ -2,17 +2,53 @@
     "name": "PlayerInputActions",
     "maps": [
         {
-            "name": "Movement",
+            "name": "Player Move",
             "id": "9c81c573-5141-4470-a434-60ed5f4a7be2",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Player Move",
                     "type": "Value",
                     "id": "85a534f0-d451-48b6-831b-4da9ba5c75e7",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "Press,Hold",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "56da9607-75c6-4bec-8968-fcccbf000924",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Draw Weapon",
+                    "type": "Button",
+                    "id": "5debf663-7858-4fa0-8b9c-92d280db0426",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "a76c95ac-3c60-47b3-aa24-f7e0e9877860",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Roll",
+                    "type": "Button",
+                    "id": "ac6213f5-2cc8-475c-925f-fed4d715eea4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -23,7 +59,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Player Move",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -34,7 +70,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Player Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -45,7 +81,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Player Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -56,7 +92,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Player Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -67,9 +103,81 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Player Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "8f759a8b-b5a5-4459-9b80-5816756d67ea",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4f5f37ac-6680-4411-b657-8d2dbd59f892",
+                    "path": "<Keyboard>/r",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Draw Weapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "183f2151-b8e2-407f-8982-592210e567af",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3afa5620-c6c5-4a16-ad65-84a19bdd9832",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Flahlight",
+            "id": "27107061-cefc-4daf-b3d9-4b5b3adfb3f5",
+            "actions": [
+                {
+                    "name": "Flashlight Mouse",
+                    "type": "Value",
+                    "id": "617642d3-51ca-4b23-9bf3-d96793cad2c6",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "24a990e3-f059-4c78-a075-2aa4a19760f5",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Flashlight Mouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
