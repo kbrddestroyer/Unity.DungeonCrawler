@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
 
     public void Attack()
     {
-        Debug.Log("Attacking!");
         var results = Physics2D.OverlapCircleAll(transform.position, baseAttackBaseRadius, enemy);
         
         foreach (var enemyCollider in results)
