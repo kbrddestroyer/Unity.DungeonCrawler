@@ -1,5 +1,8 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class EnemyBase : MonoBehaviour
 {
     [Header("Enemy Base Settings")]
@@ -43,4 +46,14 @@ public class EnemyBase : MonoBehaviour
     {
         Debug.Log($"Damaged with {fDamageApplied} damage");
     }
+    
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        var layer = LayerMask.NameToLayer("Enemy");
+        
+        if (gameObject.layer != layer)
+            gameObject.layer = layer;
+    }
+#endif
 }
