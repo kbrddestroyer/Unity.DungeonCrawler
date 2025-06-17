@@ -89,7 +89,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.33333334
+  - time: 0.25
     functionName: UnlockAttack
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: dfb35c2e85da83c4685cc51d1db78347, type: 3}
