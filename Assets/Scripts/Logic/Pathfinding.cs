@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 [Serializable]
@@ -16,6 +17,10 @@ public class Pathfinding : MonoBehaviour
     [SerializeField, Range(0f, 10f)] private float rerouteDistance;
     [SerializeField, Range(0f, 10f)] private float stopDistance;
     [SerializeField, Range(0f, 10f)] private float speed;
+
+    [Header("Event system")] 
+    [SerializeField] private UnityEvent onStartMove;
+    [SerializeField] private UnityEvent onReachedDestination;
     
     private Stack<Vector3> _path = new Stack<Vector3>();
     
@@ -125,11 +130,13 @@ public class Pathfinding : MonoBehaviour
             if (distance <= stopDistance && _path.Count > 0)
             {
                 _path.Clear();
+                onReachedDestination.Invoke();
             }
             
             if (_path.Count == 0 && distance > stopDistance)
             {
                 _path = GetPath(player.transform.position);
+                onStartMove.Invoke();
             }
 
             if (_path.Count == 0) return;
