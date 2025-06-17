@@ -7,8 +7,11 @@ public class EnemyBase : MonoBehaviour
 {
     [Header("Enemy Base Settings")]
     [SerializeField, Range(0f, 100f)] protected float baseHealth;
+    [SerializeField, Range(0f, 10f)] protected float correction;
     [SerializeField] protected bool isInvincible;
 
+    public float Correction => correction;
+    
     private float Health
     {
         get => baseHealth;
@@ -54,6 +57,12 @@ public class EnemyBase : MonoBehaviour
         
         if (gameObject.layer != layer)
             gameObject.layer = layer;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, correction);
     }
 #endif
 }

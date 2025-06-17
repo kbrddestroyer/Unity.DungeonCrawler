@@ -56,9 +56,10 @@ public class PlayerMover : MonoBehaviour
     private void ProcessAttack(InputAction.CallbackContext context)
     {
         if (context.ReadValue<float>() == 0) return;
+        if (!player.InWeapon || player.LockAttack) return;
         
-        if (player.InWeapon)
-            animator.SetTrigger(Attack);
+        player.LockAttack = true;
+        animator.SetTrigger(Attack);
     }
 
     private void ProcessRoll(InputAction.CallbackContext context)
@@ -103,7 +104,7 @@ public class PlayerMover : MonoBehaviour
 #endif
         if (vMovement2D.x != 0)
         {
-            spriteRenderer.flipX = vMovement2D.x < 0;
+            player.Flipped = spriteRenderer.flipX = vMovement2D.x < 0;
         }
 
         if (vMovement2D.magnitude != 0)
