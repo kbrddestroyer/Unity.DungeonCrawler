@@ -489,8 +489,28 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
+      propertyPath: attacksByID.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: splashAttackBaseRadius
       value: 2.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
+      propertyPath: attacksByID.Array.data[0].type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
+      propertyPath: attacksByID.Array.data[0].fDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
+      propertyPath: attacksByID.Array.data[0].fYDispersion
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
+      propertyPath: attacksByID.Array.data[0].fDamageDistance
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7034121963377509218, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: m_Name

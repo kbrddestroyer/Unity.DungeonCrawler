@@ -11,7 +11,7 @@ namespace Enemies
 
         [SerializeField] private Popup popupPrefab;
         
-        protected override void OnDamaged(float fDamageApplied)
+        public override void OnDamaged(float fDamageApplied)
         {
             var popup = Instantiate(popupPrefab, root.transform);
             popup.SetText($"{fDamageApplied}");
