@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -43,8 +42,8 @@ public class Pathfinding : MonoBehaviour
             if (Count == 0)
                 return default(TOb);
 
-            var minimum = Keys.AsReadOnlyList()[0];
-            minimum = Keys.AsReadOnlyList().Prepend(minimum).Min();
+            var minimum = Keys.ToList()[0];
+            minimum = Keys.ToList().Prepend(minimum).Min();
 
             var obj = this[minimum];
             Remove(minimum);
