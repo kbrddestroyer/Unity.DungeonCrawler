@@ -6,11 +6,16 @@ using UnityEngine.Events;
 [RequireComponent(typeof(SpriteRenderer))]
 public class EnemyBase : MonoBehaviour, IDamagable
 {
+    private static readonly int Damage = Animator.StringToHash("hit");
+    private static readonly int Death = Animator.StringToHash("death");
+
     [Header("Enemy Base Settings")]
     [SerializeField, Range(0f, 100f)] protected float baseHealth;
     [SerializeField, Range(0f, 10f)] protected float correction;
     [SerializeField] protected bool isInvincible;
     [SerializeField] private UnityEvent onDeathEvent; 
+    [Header("Dependencies")]
+    [SerializeField] protected Animator animator;
     
     public float Correction => correction;
     
@@ -20,7 +25,7 @@ public class EnemyBase : MonoBehaviour, IDamagable
         get => baseHealth;
         set
         {
-            baseHealth = (value < baseHealth) ? value : 0;
+            baseHealth = (value > 0) ? value : 0;
             if (baseHealth == 0)
                 Die();
         }
@@ -36,6 +41,7 @@ public class EnemyBase : MonoBehaviour, IDamagable
 
     public virtual void OnDeath()
     {
+        animator.SetTrigger(Death);
         Destroy(gameObject);
     }
     
@@ -51,6 +57,7 @@ public class EnemyBase : MonoBehaviour, IDamagable
 
     public virtual void OnDamaged(float fDamageApplied)
     {
+        animator.SetTrigger(Damage);
         Debug.Log($"Damaged with {fDamageApplied} damage");
     }
     
@@ -60,7 +67,10 @@ public class EnemyBase : MonoBehaviour, IDamagable
         var layer = LayerMask.NameToLayer("Enemy");
         
         if (gameObject.layer != layer)
-            gameObject.layer = layer;
+            gameObject.layer = layer; 
+        
+        if (!animator)
+            animator = GetComponent<Animator>();
     }
 
     private void OnDrawGizmosSelected()

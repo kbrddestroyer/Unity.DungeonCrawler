@@ -5,12 +5,15 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
-[Serializable]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Pathfinding : MonoBehaviour
 {
+    private static readonly int Walking = Animator.StringToHash("walking");
     [SerializeField] private Tilemap walls;
     [SerializeField] private Player player;
-
+    [SerializeField] private Animator animator;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [Header("Logical")] 
     [SerializeField, Range(0f, 10f)] private float reactionDistance;
     [SerializeField, Range(0f, 10f)] private float rerouteDistance;
@@ -55,7 +58,6 @@ public class Pathfinding : MonoBehaviour
     private Waypoint GetPathFromDestinationCoordinates(Vector3 destination)
     {
         var bounds = walls.cellBounds;
-        var allTiles = walls.GetTilesBlock(bounds);
 
         var sourceTile = walls.WorldToCell(transform.position);
         var destinationTile = walls.WorldToCell(destination);
@@ -67,6 +69,7 @@ public class Pathfinding : MonoBehaviour
 
         open[start.Weight] = start;
 
+        
         while (open.Count > 0)
         {
             var p = open.Minimum();
@@ -123,6 +126,7 @@ public class Pathfinding : MonoBehaviour
         if (_path.Count > 0 && distance > reactionDistance)
         {
             _path.Clear();
+            animator.SetBool(Walking, false);
         }
         else if (distance <= reactionDistance)
         {
@@ -130,12 +134,18 @@ public class Pathfinding : MonoBehaviour
             {
                 _path.Clear();
                 onReachedDestination.Invoke();
+                animator.SetBool(Walking, false);
             }
             
             if (_path.Count == 0 && distance > stopDistance)
             {
                 _path = GetPath(player.transform.position);
+                if (_path.Count == 0) return;
+                
                 onStartMove.Invoke();
+                animator.SetBool(Walking, true);
+                if (_path.Peek().x < transform.position.x)
+                    spriteRenderer.flipX = true;
             }
 
             if (_path.Count == 0) return;
@@ -143,11 +153,12 @@ public class Pathfinding : MonoBehaviour
             var waypoint = _path.Peek();
 
             transform.position = Vector3.MoveTowards(transform.position, waypoint, speed * Time.deltaTime);
+
+            if (!(Vector2.Distance(waypoint, transform.position) <= rerouteDistance)) return;
             
-            if (Vector2.Distance(waypoint, transform.position) <= rerouteDistance)
-            {
-                _path.Pop();
-            }
+            _path.Pop();
+            if (_path.Count > 0)
+                spriteRenderer.flipX = _path.Peek().x < transform.position.x;
         }
     }
 #if UNITY_EDITOR
@@ -156,6 +167,12 @@ public class Pathfinding : MonoBehaviour
         if (!player)
             player = FindAnyObjectByType<Player>();
 
+        if (!animator)
+            animator = GetComponent<Animator>();
+        
+        if (!spriteRenderer)
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        
         if (!walls)
             Debug.LogWarning($"Pathfinding component on {gameObject.name} has no walls tilemap reference set!");
     }

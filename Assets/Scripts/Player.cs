@@ -49,18 +49,13 @@ public class Player : MonoBehaviour, IAttacker
     
     public void Attack()
     {
-        var results = Physics2D.OverlapCircleAll(transform.position, attacksByID[AttackID].Distance + attacksByID[AttackID].Dispersion, enemy);
-        
-        foreach (var enemyCollider in results)
+        var result = AttackSolver.AttackAll(transform.position, attacksByID[AttackID], enemy, Flipped);
+
+        foreach (var enemyScriptRef in result)
         {
-            var enemyScriptRef = enemyCollider.gameObject.GetComponent<IDamagable>();
-
-            if (enemyScriptRef == null) continue;
-            
-            if (attacksByID[AttackID].ValidatePosition(transform.position, enemyScriptRef.Correction, enemyCollider.transform.position, Flipped))
-                enemyScriptRef.ApplyDamage(CalculateDamage());
+            enemyScriptRef.ApplyDamage(CalculateDamage());
         }
-
+        
         AttackID++;
     }
 
