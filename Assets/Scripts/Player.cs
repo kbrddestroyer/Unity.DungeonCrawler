@@ -53,9 +53,9 @@ public class Player : MonoBehaviour, IAttacker
         
         foreach (var enemyCollider in results)
         {
-            var enemyScriptRef = enemyCollider.gameObject.GetComponent<EnemyBase>();
+            var enemyScriptRef = enemyCollider.gameObject.GetComponent<IDamagable>();
 
-            if (!enemyScriptRef) continue;
+            if (enemyScriptRef == null) continue;
             
             if (attacksByID[AttackID].ValidatePosition(transform.position, enemyScriptRef.Correction, enemyCollider.transform.position, Flipped))
                 enemyScriptRef.ApplyDamage(CalculateDamage());
