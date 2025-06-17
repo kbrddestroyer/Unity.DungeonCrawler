@@ -1,18 +1,21 @@
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
-public class EnemyBase : MonoBehaviour
+public class EnemyBase : MonoBehaviour, IDamagable
 {
     [Header("Enemy Base Settings")]
     [SerializeField, Range(0f, 100f)] protected float baseHealth;
     [SerializeField, Range(0f, 10f)] protected float correction;
     [SerializeField] protected bool isInvincible;
-
+    [SerializeField] private UnityEvent onDeathEvent; 
+    
     public float Correction => correction;
     
-    private float Health
+    
+    public float Health
     {
         get => baseHealth;
         set
@@ -25,12 +28,13 @@ public class EnemyBase : MonoBehaviour
 
     protected bool IsDead => Health <= 0;
 
-    protected virtual void Die()
+    public void Die()
     {
+        onDeathEvent.Invoke();
         OnDeath();
     }
 
-    protected virtual void OnDeath()
+    public virtual void OnDeath()
     {
         Destroy(gameObject);
     }
@@ -45,7 +49,7 @@ public class EnemyBase : MonoBehaviour
         Health -= fDamageApplied;
     }
 
-    protected virtual void OnDamaged(float fDamageApplied)
+    public virtual void OnDamaged(float fDamageApplied)
     {
         Debug.Log($"Damaged with {fDamageApplied} damage");
     }

@@ -17,6 +17,8 @@ MonoBehaviour:
   description: Default Scene Template for level creation
   preview: {fileID: 0}
   dependencies:
+  - dependency: {fileID: 2800000, guid: 4b74647be8104654a9e7e3140044b7ad, type: 3}
+    instantiationMode: 0
   - dependency: {fileID: 350443863085280452, guid: ea7cd5c0958e82448bebb5566d054b6d, type: 3}
     instantiationMode: 0
   - dependency: {fileID: 5188295874578524961, guid: 0e4746ccd9035e34faeff4361111cf90, type: 3}
@@ -29,6 +31,8 @@ MonoBehaviour:
     instantiationMode: 0
   - dependency: {fileID: 2800000, guid: 2fd6421f253b4ef1a19526541f9ffc0c, type: 3}
     instantiationMode: 1
+  - dependency: {fileID: 7400000, guid: 852acbaba3273c4479463059a67cfaf5, type: 2}
+    instantiationMode: 0
   - dependency: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
     instantiationMode: 1
   - dependency: {fileID: 7400000, guid: 31910af071d8be84ab4ec9e40548d552, type: 2}
