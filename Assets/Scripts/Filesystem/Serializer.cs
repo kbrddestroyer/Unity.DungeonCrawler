@@ -23,7 +23,7 @@ public class Serializer
         var path = Application.persistentDataPath + "/" + typeof(T).Name + ".json";
 
         if (!File.Exists(path))
-            throw new FileNotFoundException();
+            return null;
         
         var serializer = new DataContractJsonSerializer(typeof(T));
         
