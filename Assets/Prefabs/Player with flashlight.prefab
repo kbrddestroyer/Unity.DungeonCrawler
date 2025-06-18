@@ -478,7 +478,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: enemy.m_Bits
-      value: 4294967295
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
+      propertyPath: timeToResetAttackID
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: baseAttackBaseOffset
@@ -490,7 +494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: attacksByID.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: splashAttackBaseRadius
@@ -505,6 +509,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
+      propertyPath: attacksByID.Array.data[1].fDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: attacksByID.Array.data[0].fYDispersion
       value: 2
       objectReference: {fileID: 0}
@@ -512,9 +520,17 @@ PrefabInstance:
       propertyPath: attacksByID.Array.data[0].fDamageDistance
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
+      propertyPath: attacksByID.Array.data[1].fDamageDistance
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7034121963377509218, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: m_Name
       value: Player with flashlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034121963377509218, guid: 60653875ff1dd504591f16c964179302, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
