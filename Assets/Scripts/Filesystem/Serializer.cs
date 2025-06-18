@@ -8,10 +8,11 @@ public class Serializer
     public static void WriteData(SerializedType serializable)
     {
         var path = Application.persistentDataPath + "/" + serializable.GetType().Name + ".json";
-
+        Debug.Log(path);
         var serializer = new DataContractJsonSerializer(serializable.GetType());
 
-        using var stream = new FileStream(path, FileMode.OpenOrCreate);
+        using var stream = new FileStream(path, FileMode.Create);
+        stream.Flush();
         serializer.WriteObject(stream, serializable);
     }
 
