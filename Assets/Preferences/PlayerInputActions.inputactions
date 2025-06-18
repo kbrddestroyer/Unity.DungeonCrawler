@@ -180,6 +180,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Dialogues",
+            "id": "08038916-942f-4dbc-837d-8f55c41d40d9",
+            "actions": [
+                {
+                    "name": "Skip",
+                    "type": "Button",
+                    "id": "4c8a1955-9426-4924-8e7f-a740ad2e2e48",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0114422e-b1f9-4860-af80-0034322640c6",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

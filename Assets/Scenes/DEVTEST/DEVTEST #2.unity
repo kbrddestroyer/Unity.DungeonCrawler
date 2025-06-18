@@ -46757,15 +46757,7 @@ MonoBehaviour:
   onFinishDialogue:
     m_PersistentCalls:
       m_Calls: []
-  mappedInput:
-    m_Name: Mapped Input
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: bf84abfa-ed30-4a63-866f-349f8f4dd591
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+  mappedInput: {fileID: -944628639613478452, guid: c1e17c586640d0f47988bebd4c5df175, type: 3}
 --- !u!212 &1508968695
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -47088,23 +47080,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  mappedInput:
-    m_Name: Mapped Input
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 8b8c215a-7205-4d61-b259-c8ae2a2c78bd
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: d9e86546-994e-4098-9a03-4757244b5428
-      m_Path: <Keyboard>/space
-      m_Interactions: Press
-      m_Processors: 
-      m_Groups: 
-      m_Action: Mapped Input
-      m_Flags: 0
-    m_Flags: 0
+  mappedInput: {fileID: -944628639613478452, guid: c1e17c586640d0f47988bebd4c5df175, type: 3}
 --- !u!61 &2126816250
 BoxCollider2D:
   m_ObjectHideFlags: 0

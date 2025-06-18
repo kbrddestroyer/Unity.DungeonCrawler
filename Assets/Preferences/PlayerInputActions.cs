@@ -266,6 +266,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Dialogues"",
+            ""id"": ""08038916-942f-4dbc-837d-8f55c41d40d9"",
+            ""actions"": [
+                {
+                    ""name"": ""Skip"",
+                    ""type"": ""Button"",
+                    ""id"": ""4c8a1955-9426-4924-8e7f-a740ad2e2e48"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0114422e-b1f9-4860-af80-0034322640c6"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -280,12 +308,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Flahlight
         m_Flahlight = asset.FindActionMap("Flahlight", throwIfNotFound: true);
         m_Flahlight_FlashlightMouse = m_Flahlight.FindAction("Flashlight Mouse", throwIfNotFound: true);
+        // Dialogues
+        m_Dialogues = asset.FindActionMap("Dialogues", throwIfNotFound: true);
+        m_Dialogues_Skip = m_Dialogues.FindAction("Skip", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
     {
         UnityEngine.Debug.Assert(!m_PlayerMove.enabled, "This will cause a leak and performance issues, PlayerInputActions.PlayerMove.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Flahlight.enabled, "This will cause a leak and performance issues, PlayerInputActions.Flahlight.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Dialogues.enabled, "This will cause a leak and performance issues, PlayerInputActions.Dialogues.Disable() has not been called.");
     }
 
     /// <summary>
@@ -593,6 +625,102 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="FlahlightActions" /> instance referencing this action map.
     /// </summary>
     public FlahlightActions @Flahlight => new FlahlightActions(this);
+
+    // Dialogues
+    private readonly InputActionMap m_Dialogues;
+    private List<IDialoguesActions> m_DialoguesActionsCallbackInterfaces = new List<IDialoguesActions>();
+    private readonly InputAction m_Dialogues_Skip;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Dialogues".
+    /// </summary>
+    public struct DialoguesActions
+    {
+        private @PlayerInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public DialoguesActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Dialogues/Skip".
+        /// </summary>
+        public InputAction @Skip => m_Wrapper.m_Dialogues_Skip;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Dialogues; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="DialoguesActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(DialoguesActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="DialoguesActions" />
+        public void AddCallbacks(IDialoguesActions instance)
+        {
+            if (instance == null || m_Wrapper.m_DialoguesActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_DialoguesActionsCallbackInterfaces.Add(instance);
+            @Skip.started += instance.OnSkip;
+            @Skip.performed += instance.OnSkip;
+            @Skip.canceled += instance.OnSkip;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="DialoguesActions" />
+        private void UnregisterCallbacks(IDialoguesActions instance)
+        {
+            @Skip.started -= instance.OnSkip;
+            @Skip.performed -= instance.OnSkip;
+            @Skip.canceled -= instance.OnSkip;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="DialoguesActions.UnregisterCallbacks(IDialoguesActions)" />.
+        /// </summary>
+        /// <seealso cref="DialoguesActions.UnregisterCallbacks(IDialoguesActions)" />
+        public void RemoveCallbacks(IDialoguesActions instance)
+        {
+            if (m_Wrapper.m_DialoguesActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="DialoguesActions.AddCallbacks(IDialoguesActions)" />
+        /// <seealso cref="DialoguesActions.RemoveCallbacks(IDialoguesActions)" />
+        /// <seealso cref="DialoguesActions.UnregisterCallbacks(IDialoguesActions)" />
+        public void SetCallbacks(IDialoguesActions instance)
+        {
+            foreach (var item in m_Wrapper.m_DialoguesActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_DialoguesActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="DialoguesActions" /> instance referencing this action map.
+    /// </summary>
+    public DialoguesActions @Dialogues => new DialoguesActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player Move" which allows adding and removing callbacks.
     /// </summary>
@@ -650,5 +778,20 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnFlashlightMouse(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Dialogues" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="DialoguesActions.AddCallbacks(IDialoguesActions)" />
+    /// <seealso cref="DialoguesActions.RemoveCallbacks(IDialoguesActions)" />
+    public interface IDialoguesActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Skip" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSkip(InputAction.CallbackContext context);
     }
 }
