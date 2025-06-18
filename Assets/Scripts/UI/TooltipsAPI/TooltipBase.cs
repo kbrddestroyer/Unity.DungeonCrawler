@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
+
 public abstract class TooltipBase : MonoBehaviour, ITooltip
 {
     private bool _shouldShow;
@@ -19,22 +19,6 @@ public abstract class TooltipBase : MonoBehaviour, ITooltip
     }
 
     protected abstract void Show(bool value);
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.GetComponent<Player>())
-        {
-            ShowTooltip = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.GetComponent<Player>())
-        {
-            ShowTooltip = false;
-        }
-    }
     
 #if UNITY_EDITOR
     private void OnValidate()
