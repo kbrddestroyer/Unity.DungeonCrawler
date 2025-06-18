@@ -62,23 +62,11 @@ public class TalkerBase : MonoBehaviour
     private IEnumerator Output(TalkSequence text)
     {
         onStartDisplay.Invoke();
-        text.textObject.text = "";
 
         if (_mover)
             _mover.FocusPoint = text.focusObject;
         
-        foreach (var c in text.text)
-        {
-            if (Skip)
-            {
-                text.textObject.text = text.text;
-                break;
-            }
-            text.textObject.text += c;
-            onCharacterDisplay.Invoke();
-            yield return new WaitForSeconds(characterDelay);
-        }
-        
+        yield return TalkerTextDisplayTools.DisplayTest(text, characterDelay, () => Skip, onCharacterDisplay);
         onStopDisplay.Invoke();
     }
 
