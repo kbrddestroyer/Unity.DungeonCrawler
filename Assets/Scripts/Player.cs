@@ -4,10 +4,11 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
-public class Player : MonoBehaviour, IAttacker
+public class Player : MonoBehaviour, IAttacker, IDamagable
 {
     // Animator cached keys
     private static readonly int ID = Animator.StringToHash("attackID");
+    private static readonly int Damage = Animator.StringToHash("damage");
 
     [Header("Basic Settings")]
     [SerializeField, Range(0f, 10f)] private float baseHealth;
@@ -16,6 +17,39 @@ public class Player : MonoBehaviour, IAttacker
     [SerializeField] private Attack[] attacksByID;
     [SerializeField] private LayerMask enemy;
     [SerializeField] private Animator animator;
+    [SerializeField] private Animator guiFx;
+    
+    public float Health 
+    { 
+        get => baseHealth;
+        set
+        {
+            baseHealth = (value > 0) ? value : 0;
+            if (baseHealth == 0)
+                Die();
+        }
+    }
+    
+    public void Die()
+    {
+        OnDeath();
+    }
+
+    public void OnDeath()
+    {
+    }
+
+    public void OnDamaged(float fDamageApplied)
+    {
+    }
+
+    public void ApplyDamage(float fDamageApplied)
+    {
+        Health -= fDamageApplied;
+        guiFx?.SetTrigger(Damage);
+        
+        OnDamaged(fDamageApplied);
+    }
     
     public bool InWeapon { get; private set; }
     public bool InRoll { get; set; }
@@ -70,6 +104,9 @@ public class Player : MonoBehaviour, IAttacker
     {
         if (!animator)
             animator = GetComponent<Animator>();
+        
+        if (!guiFx)
+            guiFx = GameObject.FindGameObjectWithTag("GUIEffect")?.GetComponent<Animator>();
     }
     
     private void OnDrawGizmosSelected()

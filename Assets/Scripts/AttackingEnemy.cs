@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AttackingEnemy : EnemyBase
 {
-    private static readonly int Attack1 = Animator.StringToHash("attack");
+    private static readonly int AttackKey = Animator.StringToHash("attack");
     
     [SerializeField] private Attack attack;
     [SerializeField] private LayerMask player;
@@ -16,10 +16,8 @@ public class AttackingEnemy : EnemyBase
         result?.ApplyDamage(CalculateDamage());
     }
 
-    public void ProcessAttack()
-    {
-        animator.SetTrigger(Attack1);
-    }
+    public void ProcessAttack() => animator.SetBool(AttackKey, true);
+    public void StopAttack() => animator.SetBool(AttackKey, false);
     
 #if UNITY_EDITOR
     private void OnValidate()
