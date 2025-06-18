@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public class TooltipEventDispatcher : MonoBehaviour
+public abstract class TooltipEventDispatcher : MonoBehaviour
 {
     [Header("Event Dispatcher")]
     [SerializeField] protected TooltipBase tooltip;
