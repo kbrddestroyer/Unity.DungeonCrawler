@@ -22,7 +22,7 @@ public class TalkerBase : MonoBehaviour
     [SerializeField] private UnityEvent onStopDisplay;
     [SerializeField] private UnityEvent onFinishDialogue;
     
-    [SerializeField] private InputAction mappedInput;
+    [SerializeField] private InputActionAsset mappedInput;
     
     private CameraMover _mover;
     private GameObject _startFocus;
@@ -45,12 +45,8 @@ public class TalkerBase : MonoBehaviour
         if (context.ReadValue<float>() > 0)
             Skip = true;
     }
-    
-    private void OnEnable() => mappedInput.Enable();
-    
-    private void OnDisable() => mappedInput.Disable();
 
-    private void Awake() => mappedInput.performed += ProcessSkip;
+    private void Awake() => mappedInput["Skip"].performed += ProcessSkip;
     
     private void Start()
     {
@@ -74,7 +70,8 @@ public class TalkerBase : MonoBehaviour
     {
         GlobalLock = true;
         _startFocus = _mover.FocusPoint;
-        guiFX.SetActive(true);
+        if (guiFX)
+            guiFX.SetActive(true);
 
         foreach (var sq in sequence)
         {
@@ -91,12 +88,14 @@ public class TalkerBase : MonoBehaviour
             _mover.FocusPoint = _startFocus;
         }
         
-        guiFX.SetActive(false);
+        if (guiFX)
+            guiFX.SetActive(false);
+
         onFinishDialogue.Invoke();
         GlobalLock = false;
     }
 
-    protected void TriggerTextOutput()
+    public void TriggerTextOutput()
     {
         if (!GlobalLock)
             StartCoroutine(OutputSequence());

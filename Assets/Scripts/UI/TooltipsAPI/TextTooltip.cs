@@ -1,16 +1,22 @@
 using UnityEngine;
 
-public class TextTooltip : MonoBehaviour
+public class TextTooltip : TooltipBase
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private TalkerBase talker;
 
-    // Update is called once per frame
-    void Update()
+    protected override void Show(bool value)
     {
-        
+        if (value)
+        {
+            talker.TriggerTextOutput();
+        }
     }
+    
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (!talker)
+            talker = GetComponent<TalkerBase>();
+    }
+#endif
 }
