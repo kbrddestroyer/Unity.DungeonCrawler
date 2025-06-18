@@ -130,9 +130,10 @@ public class Pathfinding : MonoBehaviour
         }
         else if (distance <= reactionDistance)
         {
-            if (distance <= stopDistance && _path.Count > 0)
+            if (distance <= stopDistance)
             {
-                _path.Clear();
+                if (_path.Count > 0)
+                    _path.Clear();
                 onReachedDestination.Invoke();
                 animator.SetBool(Walking, false);
             }
