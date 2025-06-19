@@ -9,7 +9,7 @@ public class PickableBase : MonoBehaviour
 
     public void Pickup()
     {
-        Inventory.Instance?.AddItem(info);
+        PlayerInventoryController.Instance.InventoryRef.AddItem(info);
         onPick.Invoke();
         Destroy(gameObject);
     }
