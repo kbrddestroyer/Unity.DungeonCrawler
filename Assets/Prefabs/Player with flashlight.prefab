@@ -478,7 +478,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: enemy.m_Bits
-      value: 64
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: timeToResetAttackID
@@ -544,10 +544,36 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3531254902000701385, guid: 60653875ff1dd504591f16c964179302, type: 3}
       insertIndex: -1
       addedObject: {fileID: 215686276640078834}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7034121963377509218, guid: 60653875ff1dd504591f16c964179302, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5782463940796144840}
   m_SourcePrefab: {fileID: 100100000, guid: 60653875ff1dd504591f16c964179302, type: 3}
 --- !u!4 &1774196890722150282 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3531254902000701385, guid: 60653875ff1dd504591f16c964179302, type: 3}
   m_PrefabInstance: {fileID: 2999044630659688515}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5188295874578524961 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7034121963377509218, guid: 60653875ff1dd504591f16c964179302, type: 3}
+  m_PrefabInstance: {fileID: 2999044630659688515}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5782463940796144840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5188295874578524961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19bb9d4f34edcf64188cbe26db87be44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupDistance: 1
+  playerInput: {fileID: -944628639613478452, guid: c1e17c586640d0f47988bebd4c5df175, type: 3}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  playerInventory: {fileID: 0}

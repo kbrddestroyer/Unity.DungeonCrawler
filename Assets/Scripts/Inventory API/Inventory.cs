@@ -1,13 +1,16 @@
+using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using System.ComponentModel;
 using UnityEngine;
 
 [Description("Root inventory controller, should be added as singleton object to avoid race on load/save")]
 public class Inventory : MonoBehaviour
 {
+    [SerializeField] private string filename;
     [SerializeField] private ItemRegistry registry;
     [SerializeField] private List<InventoryItemData> items = new();
-
+    [SerializeField] private bool saveOnDestroy;
+    
     public void AddItem(InventoryItemData item) => items.Add(item);
     public void RemoveItem(InventoryItemData item) => items.Remove(item);
     public bool ContainsItem(InventoryItemData item) => items.Contains(item);
@@ -15,7 +18,7 @@ public class Inventory : MonoBehaviour
 
     private void LoadState()
     {
-        if (Serializer.ReadData<InventoryStorageData>() is not InventoryStorageData data)
+        if (Serializer.ReadData<InventoryStorageData>(filename) is not InventoryStorageData data)
             return;
         
         foreach (var uId in data.ListItems)
@@ -31,17 +34,26 @@ public class Inventory : MonoBehaviour
         foreach (var item in items)
             data.ListItems.Add(item.UniqueId);
         
-        data.Save();
+        data.Save(filename);
     }
     
     private void Start() => LoadState();
     public void OnLevelLoads() => SaveState();
+
+    private void OnDestroy()
+    {
+        if (saveOnDestroy)
+            SaveState();
+    }
 
 #if UNITY_EDITOR
     private void OnValidate()
     {
         if (!registry)
             registry = FindAnyObjectByType<ItemRegistry>();
+
+        if (filename.Length == 0)
+            filename = gameObject.name;
     }
 #endif
 }

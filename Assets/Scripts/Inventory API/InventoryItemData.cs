@@ -4,7 +4,7 @@ using UnityEngine;
 
 [Description("Item structure, that will be stored in inventory")]
 [CreateAssetMenu(fileName = "InventoryItemData", menuName = "Scriptable Objects/InventoryItemData")]
-public class InventoryItemData : ScriptableObject
+public class InventoryItemData : ScriptableObject, IRegistryItem
 {
     [SerializeField] private string itemName;
     [SerializeField, Multiline] private string description;
