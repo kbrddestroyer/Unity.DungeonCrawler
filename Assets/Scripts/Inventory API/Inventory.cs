@@ -5,8 +5,6 @@ using UnityEngine;
 [Description("Root inventory controller, should be added as singleton object to avoid race on load/save")]
 public class Inventory : MonoBehaviour
 {
-    public static Inventory Instance { get; private set; }
-
     [SerializeField] private ItemRegistry registry;
     [SerializeField] private List<InventoryItemData> items = new();
 
@@ -35,22 +33,10 @@ public class Inventory : MonoBehaviour
         
         data.Save();
     }
-
-    private void OnEnable()
-    {
-        Instance = this;
-    }
     
-    private void Start()
-    {
-        LoadState();
-    }
+    private void Start() => LoadState();
+    public void OnLevelLoads() => SaveState();
 
-    private void OnDestroy()
-    {
-        SaveState();
-        Instance = null;
-    }
 #if UNITY_EDITOR
     private void OnValidate()
     {
