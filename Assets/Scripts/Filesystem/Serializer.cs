@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class Serializer
 {
-    public static void WriteData(SerializedType serializable)
+    public static void WriteData(SerializedType serializable, string fname = null)
     {
-        var path = Application.persistentDataPath + "/" + serializable.GetType().Name + ".json";
+        fname ??= serializable.GetType().Name + ".json";
+        
+        var path = Application.persistentDataPath + "/" + fname;
         Debug.Log(path);
         var serializer = new DataContractJsonSerializer(serializable.GetType());
 
@@ -16,12 +18,14 @@ public class Serializer
         serializer.WriteObject(stream, serializable);
     }
 
-    public static SerializedType ReadData<T>()
+    public static SerializedType ReadData<T>(string fname = null)
     {
+        fname ??= typeof(T).Name + ".json";
+        
         if (typeof(T).BaseType != typeof(SerializedType))
             throw new NotImplementedException();
         
-        var path = Application.persistentDataPath + "/" + typeof(T).Name + ".json";
+        var path = Application.persistentDataPath + "/" + fname;
 
         if (!File.Exists(path))
             return null;
