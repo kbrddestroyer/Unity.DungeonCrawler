@@ -18,7 +18,6 @@ public class TalkerBase : MonoBehaviour
     [SerializeField] private GameObject guiFX;
     
     [SerializeField] private UnityEvent onStartDisplay;
-    [SerializeField] private UnityEvent onCharacterDisplay;
     [SerializeField] private UnityEvent onStopDisplay;
     [SerializeField] private UnityEvent onFinishDialogue;
     
@@ -62,7 +61,7 @@ public class TalkerBase : MonoBehaviour
         if (_mover)
             _mover.FocusPoint = text.focusObject;
         
-        yield return TalkerTextDisplayTools.DisplayTest(text, characterDelay, () => Skip, onCharacterDisplay);
+        yield return TalkerTextDisplayTools.DisplayTest(text, characterDelay, () => Skip, text.onCharacterDisplay);
         onStopDisplay.Invoke();
     }
 
