@@ -3,13 +3,21 @@ using UnityEngine.InputSystem;
 
 public class PlayerInventoryController : MonoBehaviour
 {
+    public static PlayerInventoryController Instance { get; private set; }
+
     [SerializeField, Range(0f, 10f)] private float pickupDistance;
     [SerializeField] private InputActionAsset playerInput;
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private Inventory playerInventory;
+
+    public Inventory InventoryRef => playerInventory;
+    
+    private void OnEnable() => Instance = this;
+    private void OnDisable() => Instance = null;
     
     private void Start()
     {
-        if (!Inventory.Instance)
+        if (!playerInventory)
             Debug.LogError("Inventory instance is null!");
 
         playerInput["Pick"].performed += ProcessPickup;

@@ -16,9 +16,10 @@ public class EnemyBase : MonoBehaviour, IDamagable
     [SerializeField] private UnityEvent onDeathEvent; 
     [Header("Dependencies")]
     [SerializeField] protected Animator animator;
+    [SerializeField] private InventoryItemData bestiaryRecord;
+    [SerializeField] private Inventory bestiary;
     
     public float Correction => correction;
-    
     
     public float Health
     {
@@ -42,6 +43,7 @@ public class EnemyBase : MonoBehaviour, IDamagable
     public virtual void OnDeath()
     {
         animator.SetTrigger(Death);
+        bestiary?.AddItem(bestiaryRecord);
         Destroy(gameObject);
     }
     
