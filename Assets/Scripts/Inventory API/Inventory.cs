@@ -12,13 +12,19 @@ public class Inventory : MonoBehaviour
     [SerializeField] private bool saveOnDestroy;
 
     public void AddItem(InventoryItemData item)
-    { 
+    {
+        if (!item)
+            return;
+        
         items.Add(item.UniqueId);
         GUIInventory.Instance.AddItem(item);
     }
 
     public void RemoveItem(InventoryItemData item)
     {
+        if (!item)
+            return;
+        
         items.Remove(item.UniqueId);
         GUIInventory.Instance.RemoveItem(item.UniqueId);
     }
@@ -34,7 +40,7 @@ public class Inventory : MonoBehaviour
         
         foreach (var uId in data.ListItems)
         {
-            items.Add(uId);
+            AddItem(registry.GetItem(uId));
         }
     }
     

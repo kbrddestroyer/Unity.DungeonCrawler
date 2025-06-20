@@ -334,6 +334,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""GUI"",
+            ""id"": ""48ef499a-7181-46d2-b632-8766c6ef874e"",
+            ""actions"": [
+                {
+                    ""name"": ""Inventory Toggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""7800d50f-90a7-4a01-9df1-c49088eed509"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""fa398756-925a-4f57-8e46-693169be220c"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -353,6 +381,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Dialogues
         m_Dialogues = asset.FindActionMap("Dialogues", throwIfNotFound: true);
         m_Dialogues_Skip = m_Dialogues.FindAction("Skip", throwIfNotFound: true);
+        // GUI
+        m_GUI = asset.FindActionMap("GUI", throwIfNotFound: true);
+        m_GUI_InventoryToggle = m_GUI.FindAction("Inventory Toggle", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -360,6 +391,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_PlayerMove.enabled, "This will cause a leak and performance issues, PlayerInputActions.PlayerMove.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Flahlight.enabled, "This will cause a leak and performance issues, PlayerInputActions.Flahlight.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Dialogues.enabled, "This will cause a leak and performance issues, PlayerInputActions.Dialogues.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GUI.enabled, "This will cause a leak and performance issues, PlayerInputActions.GUI.Disable() has not been called.");
     }
 
     /// <summary>
@@ -785,6 +817,102 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="DialoguesActions" /> instance referencing this action map.
     /// </summary>
     public DialoguesActions @Dialogues => new DialoguesActions(this);
+
+    // GUI
+    private readonly InputActionMap m_GUI;
+    private List<IGUIActions> m_GUIActionsCallbackInterfaces = new List<IGUIActions>();
+    private readonly InputAction m_GUI_InventoryToggle;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "GUI".
+    /// </summary>
+    public struct GUIActions
+    {
+        private @PlayerInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public GUIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "GUI/InventoryToggle".
+        /// </summary>
+        public InputAction @InventoryToggle => m_Wrapper.m_GUI_InventoryToggle;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_GUI; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="GUIActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(GUIActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="GUIActions" />
+        public void AddCallbacks(IGUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GUIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GUIActionsCallbackInterfaces.Add(instance);
+            @InventoryToggle.started += instance.OnInventoryToggle;
+            @InventoryToggle.performed += instance.OnInventoryToggle;
+            @InventoryToggle.canceled += instance.OnInventoryToggle;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="GUIActions" />
+        private void UnregisterCallbacks(IGUIActions instance)
+        {
+            @InventoryToggle.started -= instance.OnInventoryToggle;
+            @InventoryToggle.performed -= instance.OnInventoryToggle;
+            @InventoryToggle.canceled -= instance.OnInventoryToggle;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GUIActions.UnregisterCallbacks(IGUIActions)" />.
+        /// </summary>
+        /// <seealso cref="GUIActions.UnregisterCallbacks(IGUIActions)" />
+        public void RemoveCallbacks(IGUIActions instance)
+        {
+            if (m_Wrapper.m_GUIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="GUIActions.AddCallbacks(IGUIActions)" />
+        /// <seealso cref="GUIActions.RemoveCallbacks(IGUIActions)" />
+        /// <seealso cref="GUIActions.UnregisterCallbacks(IGUIActions)" />
+        public void SetCallbacks(IGUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GUIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GUIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="GUIActions" /> instance referencing this action map.
+    /// </summary>
+    public GUIActions @GUI => new GUIActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player Move" which allows adding and removing callbacks.
     /// </summary>
@@ -871,5 +999,20 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSkip(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GUI" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="GUIActions.AddCallbacks(IGUIActions)" />
+    /// <seealso cref="GUIActions.RemoveCallbacks(IGUIActions)" />
+    public interface IGUIActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Inventory Toggle" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInventoryToggle(InputAction.CallbackContext context);
     }
 }
