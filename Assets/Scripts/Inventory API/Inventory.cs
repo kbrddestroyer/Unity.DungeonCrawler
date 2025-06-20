@@ -10,9 +10,19 @@ public class Inventory : MonoBehaviour
     [SerializeField] private ItemRegistry registry;
     [SerializeField] private List<uint> items = new();
     [SerializeField] private bool saveOnDestroy;
+
+    public void AddItem(InventoryItemData item)
+    { 
+        items.Add(item.UniqueId);
+        GUIInventory.Instance.AddItem(item);
+    }
+
+    public void RemoveItem(InventoryItemData item)
+    {
+        items.Remove(item.UniqueId);
+        GUIInventory.Instance.RemoveItem(item.UniqueId);
+    }
     
-    public void AddItem(InventoryItemData item) => items.Add(item.UniqueId);
-    public void RemoveItem(InventoryItemData item) => items.Remove(item.UniqueId);
     public bool ContainsItem(InventoryItemData item) => items.Contains(item.UniqueId);
     public bool ContainsItem(uint id) => items.Contains(id);
     public void Clear() => items.Clear();
