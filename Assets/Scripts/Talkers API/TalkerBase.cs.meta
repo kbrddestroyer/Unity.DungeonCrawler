@@ -1,13 +1,3 @@
-fileFormatVersion: 2
-guid: 194fca0a10aae9d4aa0c4828d5ae82ea
-MonoImporter:
-  externalObjects: {}
-  serializedVersion: 2
-  defaultReferences:
-  - guiFX: {instanceID: 0}
-  - mappedInput: {fileID: -944628639613478452, guid: c1e17c586640d0f47988bebd4c5df175, type: 3}
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+﻿fileFormatVersion: 2
+guid: 1325ee88360445fdaa848e6348381e62
+timeCreated: 1750418689

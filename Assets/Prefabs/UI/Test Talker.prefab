@@ -248,7 +248,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3698268409965960231}
   - component: {fileID: 3868007443299709601}
-  - component: {fileID: 727536099301965754}
   m_Layer: 0
   m_Name: Test Talker
   m_TagString: Untagged
@@ -327,39 +326,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &727536099301965754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8458187394353921118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 194fca0a10aae9d4aa0c4828d5ae82ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterDelay: 0
-  sequence: []
-  guiFX: {fileID: 0}
-  onStartDisplay:
-    m_PersistentCalls:
-      m_Calls: []
-  onCharacterDisplay:
-    m_PersistentCalls:
-      m_Calls: []
-  onStopDisplay:
-    m_PersistentCalls:
-      m_Calls: []
-  onFinishDialogue:
-    m_PersistentCalls:
-      m_Calls: []
-  mappedInput:
-    m_Name: Mapped Input
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: bf84abfa-ed30-4a63-866f-349f8f4dd591
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0

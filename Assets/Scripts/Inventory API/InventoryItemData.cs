@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Xml;
 using UnityEngine;
 
 [Description("Item structure, that will be stored in inventory")]
@@ -17,4 +18,8 @@ public class InventoryItemData : ScriptableObject, IRegistryItem
     public Sprite Icon => icon;
     public GameObject Pickable => pickable;
     public uint UniqueId { get => uniqueId; internal set => uniqueId = value; }
+    
+    public static bool operator == (InventoryItemData lhs, InventoryItemData rhs) => lhs?.UniqueId == rhs?.UniqueId;
+
+    public static bool operator !=(InventoryItemData lhs, InventoryItemData rhs) => !(lhs == rhs);
 }
