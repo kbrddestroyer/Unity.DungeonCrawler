@@ -84,7 +84,7 @@ public class PlayerMover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (TalkerBase.GlobalLock)
+        if (Talker.GlobalLock)
         {
             animator.SetFloat(Speed,  0);
         }
@@ -92,7 +92,7 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        if (TalkerBase.GlobalLock)
+        if (Talker.GlobalLock)
         {
             return;
         }

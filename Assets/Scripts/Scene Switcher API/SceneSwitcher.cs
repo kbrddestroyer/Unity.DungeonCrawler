@@ -25,4 +25,19 @@ public class SceneSwitcher : MonoBehaviour
         if (!validator || validator.Validate())
             SwitchScene();
     }
+    
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (onSceneSwitch.GetPersistentEventCount() == 0)
+        {
+            var inventoryObjects = FindObjectsByType<Inventory>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+            foreach (var inventoryObject in inventoryObjects)
+            {
+                onSceneSwitch.AddListener(inventoryObject.OnLevelLoads);
+            }
+        }
+    }
+#endif
 }

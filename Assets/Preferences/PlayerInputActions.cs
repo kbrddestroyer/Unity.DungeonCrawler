@@ -144,6 +144,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""ffbcd211-4d0e-46ce-926d-166a2812f6bf"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -256,6 +265,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Pick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d598f1e1-d5ce-41b4-a0ba-da398e182205"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -326,6 +346,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_PlayerMove_Attack = m_PlayerMove.FindAction("Attack", throwIfNotFound: true);
         m_PlayerMove_Roll = m_PlayerMove.FindAction("Roll", throwIfNotFound: true);
         m_PlayerMove_Pick = m_PlayerMove.FindAction("Pick", throwIfNotFound: true);
+        m_PlayerMove_Interact = m_PlayerMove.FindAction("Interact", throwIfNotFound: true);
         // Flahlight
         m_Flahlight = asset.FindActionMap("Flahlight", throwIfNotFound: true);
         m_Flahlight_FlashlightMouse = m_Flahlight.FindAction("Flashlight Mouse", throwIfNotFound: true);
@@ -420,6 +441,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMove_Attack;
     private readonly InputAction m_PlayerMove_Roll;
     private readonly InputAction m_PlayerMove_Pick;
+    private readonly InputAction m_PlayerMove_Interact;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player Move".
     /// </summary>
@@ -455,6 +477,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerMove/Pick".
         /// </summary>
         public InputAction @Pick => m_Wrapper.m_PlayerMove_Pick;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerMove/Interact".
+        /// </summary>
+        public InputAction @Interact => m_Wrapper.m_PlayerMove_Interact;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -499,6 +525,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Pick.started += instance.OnPick;
             @Pick.performed += instance.OnPick;
             @Pick.canceled += instance.OnPick;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         /// <summary>
@@ -528,6 +557,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Pick.started -= instance.OnPick;
             @Pick.performed -= instance.OnPick;
             @Pick.canceled -= instance.OnPick;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         /// <summary>
@@ -802,6 +834,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPick(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteract(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Flahlight" which allows adding and removing callbacks.

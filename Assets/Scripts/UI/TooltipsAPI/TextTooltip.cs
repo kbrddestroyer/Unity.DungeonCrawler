@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TextTooltip : TooltipBase
 {
-    [SerializeField] private TalkerBase talker;
+    [SerializeField] private Talker talker;
 
     protected override void Show(bool value)
     {
@@ -16,7 +16,7 @@ public class TextTooltip : TooltipBase
     private void OnValidate()
     {
         if (!talker)
-            talker = GetComponent<TalkerBase>();
+            talker = GetComponent<Talker>();
     }
 #endif
 }
