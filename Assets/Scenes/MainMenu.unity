@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 429815395}
   - component: {fileID: 429815394}
+  - component: {fileID: 429815396}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -143,7 +144,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 429815393}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
@@ -170,6 +171,47 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &429815396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429815393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eae6fa74332e3994e8e7eb434c727703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - id: play
+    document: {fileID: 429815394}
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    hover:
+      m_PersistentCalls:
+        m_Calls: []
+  - id: settings
+    document: {fileID: 429815394}
+    action:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1706824246}
+          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    hover:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &1364232658
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,7 +329,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1706824245}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 

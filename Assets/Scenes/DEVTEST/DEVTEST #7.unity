@@ -603,7 +603,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 739133601}
         m_TargetAssemblyTypeName: QuestGiver, ScriptsAssembly
-        m_MethodName: GiveQuest
+        m_MethodName: Process
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
