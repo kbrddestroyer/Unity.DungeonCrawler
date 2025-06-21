@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - GUIEffect
+  - inventory
+  - bestiary
+  - metaprogress
   layers:
   - Default
   - TransparentFX

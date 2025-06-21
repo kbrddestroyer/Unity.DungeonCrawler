@@ -63,6 +63,15 @@ public class PlayerInventoryController : MonoBehaviour
     {
         if (layerMask == 0)
             layerMask = LayerMask.GetMask("Pickables");
+
+        if (!playerInventory)
+            playerInventory = GameObject.FindGameObjectWithTag("inventory")?.GetComponent<Inventory>();
+        
+        if (!playerBestiary)
+            playerBestiary = GameObject.FindGameObjectWithTag("bestiary")?.GetComponent<Inventory>();
+        
+        if (!playerMetaProgress)
+            playerMetaProgress = GameObject.FindGameObjectWithTag("metaprogress")?.GetComponent<Inventory>();
     }
     
     private void OnDrawGizmosSelected()
