@@ -10,7 +10,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] private ItemRegistry registry;
     [SerializeField] private List<uint> items = new();
     [SerializeField] private bool saveOnDestroy;
-
+    [SerializeField] private Player player;
+    
     public void AddItem(InventoryItemData item)
     {
         if (!item)
@@ -18,6 +19,22 @@ public class Inventory : MonoBehaviour
         
         items.Add(item.UniqueId);
         GUIInventory.Instance.AddItem(item);
+
+        switch (item.ItemBuffType)
+        {
+            case InventoryItemData.Type.Damage:
+            {
+                player.DamageMul.Add(item.Buff);
+                break;
+            }
+            case InventoryItemData.Type.Health:
+            {
+                player.HealthMul.Add(item.Buff);
+                break;
+            }
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     public void RemoveItem(InventoryItemData item)
@@ -27,6 +44,22 @@ public class Inventory : MonoBehaviour
         
         items.Remove(item.UniqueId);
         GUIInventory.Instance.RemoveItem(item.UniqueId);
+        
+        switch (item.ItemBuffType)
+        {
+            case InventoryItemData.Type.Damage:
+            {
+                player.DamageMul.Remove(item.Buff);
+                break;
+            }
+            case InventoryItemData.Type.Health:
+            {
+                player.HealthMul.Remove(item.Buff);
+                break;
+            }
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
     
     public bool ContainsItem(InventoryItemData item) => items.Contains(item.UniqueId);
@@ -71,6 +104,9 @@ public class Inventory : MonoBehaviour
 
         if (filename.Length == 0)
             filename = gameObject.name;
+
+        if (!player)
+            player = FindAnyObjectByType<Player>();
     }
 #endif
 }
