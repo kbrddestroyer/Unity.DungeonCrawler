@@ -32,7 +32,9 @@ public class PlayerQuestController : MonoBehaviour
 
         var completed = quest.TryComplete();
         
-        if (!completed || !questsGui.TryGetValue(quest, out var questGUI)) return completed;
+        if (!completed || !questsGui.TryGetValue(quest, out var questGUI)) 
+            return completed;
+        
         Destroy(questGUI);
         return true;
     }

@@ -46,7 +46,7 @@ public class Talker : TalkerBase
     private void OnValidate()
     {
         if (!guiFX)
-            guiFX = GameObject.FindGameObjectWithTag("GUIEffect");
+            guiFX = GameObject.FindGameObjectWithTag("Bounds");
     }
 #endif
 }
