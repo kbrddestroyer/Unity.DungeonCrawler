@@ -86,6 +86,12 @@ public class Inventory : MonoBehaviour
         
         data.Save(filename);
     }
+
+    public void DropItem(GUIInventoryItem item)
+    {
+        Instantiate(item.AssociatedData, player.transform.position + player.transform.forward, Quaternion.identity);
+        RemoveItem(item.AssociatedData);
+    }
     
     private void Start() => LoadState();
     public void OnLevelLoads() => SaveState();

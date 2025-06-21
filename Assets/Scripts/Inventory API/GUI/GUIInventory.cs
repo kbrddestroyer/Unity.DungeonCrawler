@@ -23,7 +23,13 @@ public class GUIInventory : MonoBehaviour
             return;
         
         var guiObject = Instantiate(itemPrefab, root);
-        guiObject.GetComponent<GUIInventoryItem>()?.SetImage(item.Icon);
+        var guiObjectScript = guiObject.GetComponent<GUIInventoryItem>();
+
+        if (!guiObjectScript)
+            return;
+        
+        guiObjectScript.SetImage(item.Icon);
+        guiObjectScript.AssociatedData = item;
         
         if (!_gameObjectById.ContainsKey(item.UniqueId))
             _gameObjectById.Add(item.UniqueId, new Stack<GameObject>());
