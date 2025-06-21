@@ -5,4 +5,6 @@ using UnityEngine;
 public abstract class IValidator : ScriptableObject
 {
     public abstract bool Validate();
+    
+    public abstract string DisplayGoal { get; }
 }

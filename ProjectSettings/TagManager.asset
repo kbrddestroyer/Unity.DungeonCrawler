@@ -8,6 +8,7 @@ TagManager:
   - inventory
   - bestiary
   - metaprogress
+  - QuestGUIRoot
   layers:
   - Default
   - TransparentFX

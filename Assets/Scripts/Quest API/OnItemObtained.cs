@@ -9,4 +9,6 @@ public class OnItemObtained : IValidator
     {
         return PlayerInventoryController.Instance.InventoryRef.ContainsItem(item);
     }
+    
+    public override string DisplayGoal => $"Obtain item {item.ItemName}";
 }
