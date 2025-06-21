@@ -5181,7 +5181,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3188863022421279148, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
-      propertyPath: m_Size
+      propertyPath: m_Value
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4914661628521099616, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
@@ -5280,29 +5280,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: GUI
       objectReference: {fileID: 0}
-    - target: {fileID: 7123527088848405626, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7123527088848405626, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7123527088848405626, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7710584021471797401, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 760
-      objectReference: {fileID: 0}
-    - target: {fileID: 7710584021471797401, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 512
-      objectReference: {fileID: 0}
     - target: {fileID: 8234043367555596325, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000034332275
+      value: 0.000019550323
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
