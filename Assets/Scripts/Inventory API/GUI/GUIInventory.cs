@@ -12,18 +12,25 @@ public class GUIInventory : MonoBehaviour
     [Header("Controls")] 
     [SerializeField] private InputActionAsset playerInput;
 
-    private Dictionary<uint, GameObject> _gameObjectById = new();
+    private readonly Dictionary<uint, Stack<GameObject>> _gameObjectById = new();
     
     public void EnableGUI() => inventoryRoot.SetActive(true);
     public void DisableGUI() => inventoryRoot.SetActive(false);
 
     public void AddItem(InventoryItemData item)
     {
+        if (!item.Icon)
+            return;
+        
         var guiObject = Instantiate(itemPrefab, root);
         guiObject.GetComponent<GUIInventoryItem>()?.SetImage(item.Icon);
+        
+        if (!_gameObjectById.ContainsKey(item.UniqueId))
+            _gameObjectById.Add(item.UniqueId, new Stack<GameObject>());
+        _gameObjectById[item.UniqueId].Push(guiObject);
     }
     
-    public void RemoveItem(uint id) => Destroy(_gameObjectById[id].gameObject);
+    public void RemoveItem(uint id) => Destroy(_gameObjectById[id].Pop().gameObject);
     private void OnEnable() => Instance = this;
     private void OnDisable() => Instance = null;
 
