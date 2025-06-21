@@ -18,16 +18,26 @@ public class Player : MonoBehaviour, IAttacker, IDamagable
     [SerializeField] private LayerMask enemy;
     [SerializeField] private Animator animator;
     [SerializeField] private Animator guiFx;
-    
+
+    public FloatDynamicProperty HealthMul { get; private set; }
+
+    public FloatDynamicProperty DamageMul { get; private set; }
+
     public float Health 
     { 
-        get => baseHealth;
+        get => HealthMul.Value;
         set
         {
-            baseHealth = (value > 0) ? value : 0;
-            if (baseHealth == 0)
+            HealthMul.Value = (value > 0) ? value : 0;
+            if (HealthMul.Value == 0)
                 Die();
         }
+    }
+
+    public void Start()
+    {
+        HealthMul = new FloatDynamicProperty(baseHealth);
+        DamageMul = new FloatDynamicProperty(Damage);
     }
     
     public void Die()

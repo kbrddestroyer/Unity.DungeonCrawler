@@ -4909,6 +4909,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 296433211715811912, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 296433211715811912, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 296433211715811912, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4914661628521099616, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -4992,10 +5004,6 @@ PrefabInstance:
     - target: {fileID: 6454499801158889221, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
       propertyPath: m_Name
       value: GUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 6643702530745168219, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
-      propertyPath: m_TagString
-      value: GUIEffect
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
