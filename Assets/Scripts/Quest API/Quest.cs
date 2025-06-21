@@ -14,6 +14,9 @@ public class Quest : ScriptableObject
 
     public uint UniqueID { get => uniqueID; set => uniqueID = value; }
 
+    public string QuestName => questName;
+    public string Description => validate ? validate.DisplayGoal : description;
+    
     public bool Started { get; private set; }
     public bool Completed { get; private set; }
 
