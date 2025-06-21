@@ -9,6 +9,7 @@ TagManager:
   - bestiary
   - metaprogress
   - QuestGUIRoot
+  - Bounds
   layers:
   - Default
   - TransparentFX
