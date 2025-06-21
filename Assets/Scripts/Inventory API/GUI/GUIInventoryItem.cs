@@ -5,7 +5,9 @@ using UnityEngine.UI;
 public class GUIInventoryItem : MonoBehaviour
 {
     [SerializeField] private Image icon;
-    
+
+    public InventoryItemData AssociatedData { get; set; }
+
     public void SetImage(Sprite sprite) => icon.sprite = sprite;
     
 #if UNITY_EDITOR

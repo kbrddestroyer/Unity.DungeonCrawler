@@ -9,8 +9,12 @@ public class PlayerInventoryController : MonoBehaviour
     [SerializeField] private InputActionAsset playerInput;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Inventory playerInventory;
+    [SerializeField] private Inventory playerBestiary;
+    [SerializeField] private Inventory playerMetaProgress;
 
     public Inventory InventoryRef => playerInventory;
+    public Inventory BestiaryRef => playerBestiary;
+    public Inventory MetaProgressRef => playerMetaProgress;
     
     private void OnEnable() => Instance = this;
     private void OnDisable() => Instance = null;
@@ -37,12 +41,37 @@ public class PlayerInventoryController : MonoBehaviour
         var pickable = result.gameObject.GetComponent<PickableBase>();
         pickable?.Pickup();
     }
+
+    public void AddBestiaryRecord(InventoryItemData itemData)
+    {
+        if (!itemData)
+            return;
+        
+        BestiaryRef.AddItem(itemData);
+    }
+
+    public void AddMetaProgress(InventoryItemData itemData)
+    {
+        if (!itemData)
+            return;
+        
+        MetaProgressRef.AddItem(itemData);
+    }
     
 #if UNITY_EDITOR
     private void OnValidate()
     {
         if (layerMask == 0)
             layerMask = LayerMask.GetMask("Pickables");
+
+        if (!playerInventory)
+            playerInventory = GameObject.FindGameObjectWithTag("inventory")?.GetComponent<Inventory>();
+        
+        if (!playerBestiary)
+            playerBestiary = GameObject.FindGameObjectWithTag("bestiary")?.GetComponent<Inventory>();
+        
+        if (!playerMetaProgress)
+            playerMetaProgress = GameObject.FindGameObjectWithTag("metaprogress")?.GetComponent<Inventory>();
     }
     
     private void OnDrawGizmosSelected()
