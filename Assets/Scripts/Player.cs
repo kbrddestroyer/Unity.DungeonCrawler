@@ -88,7 +88,7 @@ public class Player : MonoBehaviour, IAttacker, IDamagable
     }
 
     private void ResetAttackCombo() => _resetAttackTime = Time.fixedTime + timeToResetAttackID;
-    private float CalculateDamage() => attacksByID[AttackID].Damage;
+    private float CalculateDamage() => attacksByID[AttackID].Damage * DamageMul.Value;
     public void UnlockAttack() => LockAttack = false;
     
     public void Attack()
