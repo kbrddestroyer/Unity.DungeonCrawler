@@ -49,3 +49,4 @@ MonoBehaviour:
   items: 
   saveOnDestroy: 0
   player: {fileID: 0}
+  hasGui: 0

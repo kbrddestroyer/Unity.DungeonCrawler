@@ -11,6 +11,7 @@ public class Inventory : IController
     [SerializeField] private List<uint> items = new();
     [SerializeField] private bool saveOnDestroy;
     [SerializeField] private Player player;
+    [SerializeField] private bool hasGui = true;
     
     public void AddItem(InventoryItemData item)
     {
@@ -18,7 +19,9 @@ public class Inventory : IController
             return;
         
         items.Add(item.UniqueId);
-        GUIInventory.Instance.AddItem(item);
+        
+        if (hasGui)
+            GUIInventory.Instance.AddItem(item);
 
         switch (item.ItemBuffType)
         {
@@ -43,7 +46,9 @@ public class Inventory : IController
             return;
         
         items.Remove(item.UniqueId);
-        GUIInventory.Instance.RemoveItem(item.UniqueId);
+        
+        if (hasGui)
+            GUIInventory.Instance.RemoveItem(item.UniqueId);
         
         switch (item.ItemBuffType)
         {

@@ -4795,6 +4795,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4180917648279101472, guid: 982a733189f408e468016b256443483a, type: 3}
+      propertyPath: saveOnDestroy
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8358478955714463968, guid: 982a733189f408e468016b256443483a, type: 3}
       propertyPath: m_Name
       value: Processors
@@ -5001,9 +5005,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5543486885293582158, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543486885293582158, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6454499801158889221, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
       propertyPath: m_Name
       value: GUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123527088848405626, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123527088848405626, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123527088848405626, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8234043367555596325, guid: d2d272d6b1cae6643aa98cf5b5305e35, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000027436701
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
