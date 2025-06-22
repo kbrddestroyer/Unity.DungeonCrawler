@@ -51,13 +51,25 @@ public abstract class TalkerBase : MonoBehaviour
     protected IEnumerator Output(TalkSequence text)
     {
         onStartDisplay.Invoke();
+        _skip = false;
 
         if (Mover)
             Mover.FocusPoint = text.focusObject;
     
         yield return TalkerTextDisplayTools.DisplayTest(text, characterDelay, () => Skip, text.onCharacterDisplay);
+
         onStopDisplay.Invoke();
     }
 
     public abstract void TriggerTextOutput();
+    
+#if UNITY_EDITOR
+    protected virtual void OnValidate()
+    {
+        Debug.Log("Validate!");
+        
+        if (!guiFX)
+            guiFX = GameObject.FindGameObjectWithTag("Bounds");
+    }    
+#endif
 }
