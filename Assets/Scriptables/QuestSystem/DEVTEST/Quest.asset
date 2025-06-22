@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: Just a test quest
   description: Just for testing
-  validate: {fileID: 0}
+  validate: {fileID: 11400000, guid: fdef5c1d2fff21a4ba033ee224fd4c1f, type: 2}
   onQuestStarted:
     m_PersistentCalls:
       m_Calls: []
