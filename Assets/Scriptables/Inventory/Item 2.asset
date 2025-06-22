@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d87b67c382a24a41a94d6be158b9ab2, type: 3}
   m_Name: Item 2
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: "\u0412\u0435\u0449\u0438\u0446\u0430"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: -855298285791758126, guid: c82c418f3f3bf2f4f99729de816da7c2, type: 3}
   pickable: {fileID: 0}
-  uniqueId: 0
+  uniqueId: 1
+  buff:
+    wrapped: 1
+  itemBuffType: 0

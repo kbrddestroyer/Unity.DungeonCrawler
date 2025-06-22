@@ -4,13 +4,14 @@ using System.ComponentModel;
 using UnityEngine;
 
 [Description("Root inventory controller, should be added as singleton object to avoid race on load/save")]
-public class Inventory : MonoBehaviour
+public class Inventory : IController
 {
     [SerializeField] private string filename;
     [SerializeField] private ItemRegistry registry;
     [SerializeField] private List<uint> items = new();
     [SerializeField] private bool saveOnDestroy;
     [SerializeField] private Player player;
+    [SerializeField] private bool hasGui = true;
     
     public void AddItem(InventoryItemData item)
     {
@@ -18,7 +19,9 @@ public class Inventory : MonoBehaviour
             return;
         
         items.Add(item.UniqueId);
-        GUIInventory.Instance.AddItem(item);
+        
+        if (hasGui)
+            GUIInventory.Instance.AddItem(item);
 
         switch (item.ItemBuffType)
         {
@@ -43,7 +46,9 @@ public class Inventory : MonoBehaviour
             return;
         
         items.Remove(item.UniqueId);
-        GUIInventory.Instance.RemoveItem(item.UniqueId);
+        
+        if (hasGui)
+            GUIInventory.Instance.RemoveItem(item.UniqueId);
         
         switch (item.ItemBuffType)
         {
@@ -94,7 +99,7 @@ public class Inventory : MonoBehaviour
     }
     
     private void Start() => LoadState();
-    public void OnLevelLoads() => SaveState();
+    public override void OnLevelLoads() => SaveState();
 
     private void OnDestroy()
     {

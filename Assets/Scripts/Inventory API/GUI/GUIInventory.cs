@@ -28,7 +28,6 @@ public class GUIInventory : MonoBehaviour
         if (!guiObjectScript)
             return;
         
-        guiObjectScript.SetImage(item.Icon);
         guiObjectScript.AssociatedData = item;
         
         if (!_gameObjectById.ContainsKey(item.UniqueId))

@@ -11,7 +11,7 @@ public class PlayerInventoryController : MonoBehaviour
     [SerializeField] private Inventory playerInventory;
     [SerializeField] private Inventory playerBestiary;
     [SerializeField] private Inventory playerMetaProgress;
-
+    
     public Inventory InventoryRef => playerInventory;
     public Inventory BestiaryRef => playerBestiary;
     public Inventory MetaProgressRef => playerMetaProgress;
