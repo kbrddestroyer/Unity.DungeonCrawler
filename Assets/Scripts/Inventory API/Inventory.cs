@@ -4,7 +4,7 @@ using System.ComponentModel;
 using UnityEngine;
 
 [Description("Root inventory controller, should be added as singleton object to avoid race on load/save")]
-public class Inventory : MonoBehaviour
+public class Inventory : IController
 {
     [SerializeField] private string filename;
     [SerializeField] private ItemRegistry registry;
@@ -94,7 +94,7 @@ public class Inventory : MonoBehaviour
     }
     
     private void Start() => LoadState();
-    public void OnLevelLoads() => SaveState();
+    public override void OnLevelLoads() => SaveState();
 
     private void OnDestroy()
     {

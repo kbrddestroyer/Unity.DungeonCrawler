@@ -18,7 +18,7 @@ public class SceneSwitcher : MonoBehaviour
         yield return SceneManager.LoadSceneAsync(sceneName);
     }
 
-    protected void SwitchScene() => StartCoroutine(AsyncSwitchScene());
+    private void SwitchScene() => StartCoroutine(AsyncSwitchScene());
 
     protected void TrySwitchScene()
     {
@@ -29,14 +29,12 @@ public class SceneSwitcher : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        if (onSceneSwitch.GetPersistentEventCount() == 0)
+        if (onSceneSwitch.GetPersistentEventCount() != 0) return;
+        
+        var inventoryObjects = FindObjectsByType<Inventory>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var inventoryObject in inventoryObjects)
         {
-            var inventoryObjects = FindObjectsByType<Inventory>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-
-            foreach (var inventoryObject in inventoryObjects)
-            {
-                onSceneSwitch.AddListener(inventoryObject.OnLevelLoads);
-            }
+            onSceneSwitch.AddListener(inventoryObject.OnLevelLoads);
         }
     }
 #endif
