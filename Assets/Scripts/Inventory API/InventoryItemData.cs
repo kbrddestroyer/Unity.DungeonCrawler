@@ -22,6 +22,5 @@ public class InventoryItemData : ScriptableObject, IRegistryItem
     public Buff[] Buff => buffs;
     
     public static bool operator == (InventoryItemData lhs, InventoryItemData rhs) => lhs?.UniqueId == rhs?.UniqueId;
-
     public static bool operator !=(InventoryItemData lhs, InventoryItemData rhs) => !(lhs == rhs);
 }

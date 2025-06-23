@@ -17,3 +17,7 @@ MonoBehaviour:
   icon: {fileID: 5088316998373936774, guid: 70caabfe635b6064095315c1b386faa3, type: 3}
   pickable: {fileID: 0}
   uniqueId: 0
+  buffs:
+  - buff:
+      wrapped: 2
+    itemBuffType: 1

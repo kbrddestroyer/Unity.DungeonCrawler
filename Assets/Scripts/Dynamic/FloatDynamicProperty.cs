@@ -6,14 +6,21 @@ public class FloatDynamicProperty : DynamicProperty<float>
 {
     public FloatDynamicProperty() : base(1) { }
     
-    public FloatDynamicProperty(float wrapped) : base(wrapped)
+    public FloatDynamicProperty(float wrapped, OnValueChanged callback = null) : base(wrapped, callback)
     {
     }
 
-    public override float Apply(float val) => val * Value;
+    public override float Apply(float val)
+    {
+        return val * Value;
+    }
 
     public override float Value
     {
-        set => wrapped = value / _properties.Aggregate(1.0f, (current, property) => property.Apply(current));
+        set
+        {
+            wrapped = value / Properties.Aggregate(1.0f, (current, property) => property.Apply(current));
+            OnValueChangedCallback?.Invoke(wrapped);
+        }
     }
 }

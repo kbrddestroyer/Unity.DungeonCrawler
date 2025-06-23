@@ -4,18 +4,14 @@ using UnityEngine.InputSystem;
 
 public class GUIInventory : MonoBehaviour
 {
-    public static GUIInventory Instance { get; private set; }
-
     [SerializeField] private GameObject inventoryRoot;
+    [SerializeField] private string bindingName;
     [SerializeField] private Transform root;
     [SerializeField] private GameObject itemPrefab;
     [Header("Controls")] 
     [SerializeField] private InputActionAsset playerInput;
 
     private readonly Dictionary<uint, Stack<GameObject>> _gameObjectById = new();
-    
-    public void EnableGUI() => inventoryRoot.SetActive(true);
-    public void DisableGUI() => inventoryRoot.SetActive(false);
 
     public void AddItem(InventoryItemData item)
     {
@@ -23,9 +19,9 @@ public class GUIInventory : MonoBehaviour
             return;
         
         var guiObject = Instantiate(itemPrefab, root);
-        var guiObjectScript = guiObject.GetComponent<GUIInventoryItem>();
+        var guiObjectScript = guiObject.GetComponent<IGUIElement>();
 
-        if (!guiObjectScript)
+        if (guiObjectScript == null)
             return;
         
         guiObjectScript.AssociatedData = item;
@@ -36,8 +32,6 @@ public class GUIInventory : MonoBehaviour
     }
     
     public void RemoveItem(uint id) => Destroy(_gameObjectById[id].Pop().gameObject);
-    private void OnEnable() => Instance = this;
-    private void OnDisable() => Instance = null;
 
     private void ProcessToggleInventory(InputAction.CallbackContext context)
     {
@@ -49,6 +43,6 @@ public class GUIInventory : MonoBehaviour
     
     private void Start()
     {
-        playerInput["Inventory Toggle"].performed += ProcessToggleInventory;
+        playerInput[bindingName].performed += ProcessToggleInventory;
     }
 }

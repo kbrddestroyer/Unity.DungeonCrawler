@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
-public class GUIInventoryItem : MonoBehaviour
+public class GUIInventoryItem : MonoBehaviour, IGUIElement
 {
     [SerializeField] private Image icon;
 

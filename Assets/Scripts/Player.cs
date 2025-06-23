@@ -20,7 +20,6 @@ public class Player : MonoBehaviour, IAttacker, IDamagable
     [SerializeField] private Animator guiFx;
 
     public FloatDynamicProperty HealthMul { get; private set; }
-
     public FloatDynamicProperty DamageMul { get; private set; }
 
     public float Health 
@@ -34,10 +33,10 @@ public class Player : MonoBehaviour, IAttacker, IDamagable
         }
     }
 
-    public void Start()
+    public void Awake()
     {
-        HealthMul = new FloatDynamicProperty(baseHealth);
-        DamageMul = new FloatDynamicProperty(Damage);
+        HealthMul = new FloatDynamicProperty(baseHealth, PlayerGUIAggregator.Instance.SetHealthValue);
+        DamageMul = new FloatDynamicProperty(1, PlayerGUIAggregator.Instance.SetAttackValue);
     }
     
     public void Die()

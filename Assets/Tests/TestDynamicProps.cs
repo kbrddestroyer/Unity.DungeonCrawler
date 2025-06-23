@@ -45,7 +45,7 @@ public class TestDynamicProps
         go.AddComponent<BoxCollider2D>();
         var player = go.AddComponent<Player>();
 
-        player.Start();
+        player.Awake();
         
         Assert.That(player, Is.Not.Null);
         Assert.That(player.Health, Is.EqualTo(0));

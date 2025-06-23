@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using UnityEngine;
 
 [Description("Root inventory controller, should be added as singleton object to avoid race on load/save")]
@@ -11,7 +12,8 @@ public class Inventory : IController
     [SerializeField] private List<uint> items = new();
     [SerializeField] private bool saveOnDestroy;
     [SerializeField] private Player player;
-    [SerializeField] private bool hasGui = true;
+    [SerializeField] private GUIInventory gui;
+    [SerializeField] private bool uniqueOnly = false;
 
     private FloatDynamicProperty GetPropertyByType(Buff.Type t)
     {
@@ -39,25 +41,29 @@ public class Inventory : IController
     {
         if (!item)
             return;
+
+        if (items.Contains(item.UniqueId) && uniqueOnly)
+            return;
         
         items.Add(item.UniqueId);
-        
-        if (hasGui)
-            GUIInventory.Instance.AddItem(item);
+        gui?.AddItem(item);
 
-        foreach (var buff in item.Buff)
+        foreach (var buff in item.Buff.Where(buff => buff != null))
             ApplyBuff(buff);
     }
 
     public void RemoveItem(InventoryItemData item)
     {
+        // Cannot delete from unique registry
+        if (uniqueOnly)
+            return;
+        
         if (!item)
             return;
         
         items.Remove(item.UniqueId);
         
-        if (hasGui)
-            GUIInventory.Instance.RemoveItem(item.UniqueId);
+        gui?.RemoveItem(item.UniqueId);
        
         foreach (var buff in item.Buff)
             ApplyBuff(buff);
