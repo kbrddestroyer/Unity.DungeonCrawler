@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Craftable : GUIInventoryItem, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
-    private static List<Craftable> _allCraftables = new();
+    private static readonly List<Craftable> AllCraftables = new();
     
     [SerializeField] private Camera mainCamera;
     [SerializeField, Range(0f, 100f)] private float distanceToMergeItems;
@@ -15,8 +15,8 @@ public class Craftable : GUIInventoryItem, IDragHandler, IEndDragHandler, IBegin
     private bool _beingDragged;
     private Vector3 _dragStartPosition;
     
-    private void Start() => _allCraftables.Add(this);
-    private void OnDestroy() => _allCraftables.Remove(this);
+    private void Start() => AllCraftables.Add(this);
+    private void OnDestroy() => AllCraftables.Remove(this);
     
     public void OnDrag(PointerEventData eventData)
     {
@@ -44,7 +44,7 @@ public class Craftable : GUIInventoryItem, IDragHandler, IEndDragHandler, IBegin
         if (!_beingDragged) return;
         _beingDragged = false;
         
-        foreach (var craftable in _allCraftables.Where(craftable => Vector2.Distance(craftable.transform.position, transform.position) <= distanceToMergeItems))
+        foreach (var craftable in AllCraftables.Where(craftable => Vector2.Distance(craftable.transform.position, transform.position) <= distanceToMergeItems))
         {
             if (HandleMerge(craftable))
             {
