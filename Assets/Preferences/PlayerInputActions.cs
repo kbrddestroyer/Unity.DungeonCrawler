@@ -347,6 +347,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Bestiary Toggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""6a7eef34-b32b-4fbe-948d-b34f92300c4b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -358,6 +367,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Inventory Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b18d6b43-2f93-42e4-a14c-9e1d3f0930ab"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Bestiary Toggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -384,6 +404,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // GUI
         m_GUI = asset.FindActionMap("GUI", throwIfNotFound: true);
         m_GUI_InventoryToggle = m_GUI.FindAction("Inventory Toggle", throwIfNotFound: true);
+        m_GUI_BestiaryToggle = m_GUI.FindAction("Bestiary Toggle", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -822,6 +843,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_GUI;
     private List<IGUIActions> m_GUIActionsCallbackInterfaces = new List<IGUIActions>();
     private readonly InputAction m_GUI_InventoryToggle;
+    private readonly InputAction m_GUI_BestiaryToggle;
     /// <summary>
     /// Provides access to input actions defined in input action map "GUI".
     /// </summary>
@@ -837,6 +859,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GUI/InventoryToggle".
         /// </summary>
         public InputAction @InventoryToggle => m_Wrapper.m_GUI_InventoryToggle;
+        /// <summary>
+        /// Provides access to the underlying input action "GUI/BestiaryToggle".
+        /// </summary>
+        public InputAction @BestiaryToggle => m_Wrapper.m_GUI_BestiaryToggle;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -866,6 +892,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @InventoryToggle.started += instance.OnInventoryToggle;
             @InventoryToggle.performed += instance.OnInventoryToggle;
             @InventoryToggle.canceled += instance.OnInventoryToggle;
+            @BestiaryToggle.started += instance.OnBestiaryToggle;
+            @BestiaryToggle.performed += instance.OnBestiaryToggle;
+            @BestiaryToggle.canceled += instance.OnBestiaryToggle;
         }
 
         /// <summary>
@@ -880,6 +909,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @InventoryToggle.started -= instance.OnInventoryToggle;
             @InventoryToggle.performed -= instance.OnInventoryToggle;
             @InventoryToggle.canceled -= instance.OnInventoryToggle;
+            @BestiaryToggle.started -= instance.OnBestiaryToggle;
+            @BestiaryToggle.performed -= instance.OnBestiaryToggle;
+            @BestiaryToggle.canceled -= instance.OnBestiaryToggle;
         }
 
         /// <summary>
@@ -1014,5 +1046,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInventoryToggle(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Bestiary Toggle" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBestiaryToggle(InputAction.CallbackContext context);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using UnityEngine;
 
 [Description("Root inventory controller, should be added as singleton object to avoid race on load/save")]
@@ -11,60 +12,61 @@ public class Inventory : IController
     [SerializeField] private List<uint> items = new();
     [SerializeField] private bool saveOnDestroy;
     [SerializeField] private Player player;
-    [SerializeField] private bool hasGui = true;
+    [SerializeField] private GUIInventory gui;
+    [SerializeField] private bool uniqueOnly = false;
+
+    private FloatDynamicProperty GetPropertyByType(Buff.Type t)
+    {
+        return t switch
+        {
+            Buff.Type.Damage => player.DamageMul,
+            Buff.Type.Health => player.HealthMul,
+            _ => throw new ArgumentOutOfRangeException(nameof(t), t, null)
+        };
+    }
+    
+    private void ApplyBuff(Buff buff)
+    {
+        var multiplier = GetPropertyByType(buff.ItemBuffType);
+        multiplier.Add(buff.Multiplier);
+    }
+
+    private void RemoveBuff(Buff buff)
+    {
+        var multiplier = GetPropertyByType(buff.ItemBuffType);
+        multiplier.Remove(buff.Multiplier);
+    }
     
     public void AddItem(InventoryItemData item)
     {
         if (!item)
             return;
+
+        if (items.Contains(item.UniqueId) && uniqueOnly)
+            return;
         
         items.Add(item.UniqueId);
-        
-        if (hasGui)
-            GUIInventory.Instance.AddItem(item);
+        gui?.AddItem(item);
 
-        switch (item.ItemBuffType)
-        {
-            case InventoryItemData.Type.Damage:
-            {
-                player.DamageMul.Add(item.Buff);
-                break;
-            }
-            case InventoryItemData.Type.Health:
-            {
-                player.HealthMul.Add(item.Buff);
-                break;
-            }
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        foreach (var buff in item.Buff.Where(buff => buff != null))
+            ApplyBuff(buff);
     }
 
     public void RemoveItem(InventoryItemData item)
     {
+        // Cannot delete from unique registry
+        if (uniqueOnly)
+            return;
+        
         if (!item)
             return;
         
         items.Remove(item.UniqueId);
         
-        if (hasGui)
-            GUIInventory.Instance.RemoveItem(item.UniqueId);
-        
-        switch (item.ItemBuffType)
-        {
-            case InventoryItemData.Type.Damage:
-            {
-                player.DamageMul.Remove(item.Buff);
-                break;
-            }
-            case InventoryItemData.Type.Health:
-            {
-                player.HealthMul.Remove(item.Buff);
-                break;
-            }
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        gui?.RemoveItem(item.UniqueId);
+       
+        foreach (var buff in item.Buff)
+            ApplyBuff(buff);
     }
     
     public bool ContainsItem(InventoryItemData item) => items.Contains(item.UniqueId);
