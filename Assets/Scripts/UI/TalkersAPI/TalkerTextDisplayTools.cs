@@ -8,7 +8,7 @@ public class TalkerTextDisplayTools
 {
     public delegate bool ShouldSkip();
     
-    public static IEnumerator DisplayTest(TalkSequence sequence, float characterDelay, ShouldSkip skip = null, UnityEvent onCharacterDisplay = null)
+    public static IEnumerator DisplayTest(TalkSequence sequence, float characterDelay, AudioSource source = null, ShouldSkip skip = null, UnityEvent onCharacterDisplay = null)
     {
         skip ??= () => false;
         sequence.textObject.text = "";
@@ -21,6 +21,7 @@ public class TalkerTextDisplayTools
                 break;
             }
             sequence.textObject.text += c;
+            source?.PlayOneShot(sequence.audioClip);
             onCharacterDisplay?.Invoke();
             yield return new WaitForSeconds(characterDelay);
         }

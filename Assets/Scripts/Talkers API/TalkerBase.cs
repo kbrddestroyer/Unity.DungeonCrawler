@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(AudioSource))]
 public abstract class TalkerBase : MonoBehaviour
 {    
     public static bool GlobalLock { get; protected set; }
@@ -15,8 +16,8 @@ public abstract class TalkerBase : MonoBehaviour
     [SerializeField] protected UnityEvent onStartDisplay;
     [SerializeField] protected UnityEvent onStopDisplay;
     [SerializeField] protected UnityEvent onFinishDialogue;
-
     [SerializeField] protected InputActionAsset mappedInput;
+    [SerializeField] protected AudioSource audioSource;
 
     protected CameraMover Mover;
 
@@ -56,7 +57,7 @@ public abstract class TalkerBase : MonoBehaviour
         if (Mover)
             Mover.FocusPoint = text.focusObject;
     
-        yield return TalkerTextDisplayTools.DisplayTest(text, characterDelay, () => Skip, text.onCharacterDisplay);
+        yield return TalkerTextDisplayTools.DisplayTest(text, characterDelay, audioSource, () => Skip, text.onCharacterDisplay);
 
         onStopDisplay.Invoke();
     }
@@ -70,6 +71,9 @@ public abstract class TalkerBase : MonoBehaviour
         
         if (!guiFX)
             guiFX = GameObject.FindGameObjectWithTag("Bounds");
+        
+        if (!audioSource) 
+            audioSource = GetComponent<AudioSource>();
     }    
 #endif
 }

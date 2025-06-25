@@ -4,15 +4,15 @@ using UnityEngine;
 public class Talker : TalkerBase
 {
     [SerializeField] private TalkSequence[] sequence;
-
+    
     private GameObject _startFocus;
 
     private IEnumerator OutputSequence()
     {
         GlobalLock = true;
         _startFocus = Mover.FocusPoint;
-        if (guiFX)
-            guiFX.SetActive(true);
+        
+        guiFX?.SetActive(true);
 
         foreach (var sq in sequence)
         {
@@ -29,8 +29,7 @@ public class Talker : TalkerBase
             Mover.FocusPoint = _startFocus;
         }
         
-        if (guiFX)
-            guiFX.SetActive(false);
+        guiFX?.SetActive(false);
 
         onFinishDialogue.Invoke();
         GlobalLock = false;
@@ -43,7 +42,7 @@ public class Talker : TalkerBase
     }
     
 #if UNITY_EDITOR
-    private void OnValidate()
+    private new void OnValidate()
     {
         if (!guiFX)
             guiFX = GameObject.FindGameObjectWithTag("Bounds");
