@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AudioSource))]
 public class Player : MonoBehaviour, IAttacker, IDamagable
 {
     // Animator cached keys
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour, IAttacker, IDamagable
     [SerializeField] private LayerMask enemy;
     [SerializeField] private Animator animator;
     [SerializeField] private Animator guiFx;
+    [SerializeField] private AudioSource audioSource;
 
     public FloatDynamicProperty HealthMul { get; private set; }
     public FloatDynamicProperty DamageMul { get; private set; }
@@ -92,6 +94,8 @@ public class Player : MonoBehaviour, IAttacker, IDamagable
     
     public void Attack()
     {
+        audioSource.PlayOneShot(attacksByID[AttackID].Sfx);
+        
         var result = AttackSolver.AttackAll(transform.position, attacksByID[AttackID], enemy, Flipped);
 
         foreach (var enemyScriptRef in result)
@@ -116,6 +120,9 @@ public class Player : MonoBehaviour, IAttacker, IDamagable
         
         if (!guiFx)
             guiFx = GameObject.FindGameObjectWithTag("GUIEffect")?.GetComponent<Animator>();
+        
+        if (!audioSource)
+            audioSource = GetComponent<AudioSource>();
     }
     
     private void OnDrawGizmosSelected()

@@ -17,6 +17,8 @@ MonoBehaviour:
   description: Default scene template for gameplay scenes
   preview: {fileID: 0}
   dependencies:
+  - dependency: {fileID: -2253911629886400664, guid: 79fc874dd987a6c418d544b516aef425, type: 3}
+    instantiationMode: 0
   - dependency: {fileID: 350443863085280452, guid: ea7cd5c0958e82448bebb5566d054b6d, type: 3}
     instantiationMode: 1
   - dependency: {fileID: 12800000, guid: ba158582704b37f45be063f1a6bac48b, type: 3}
@@ -29,6 +31,8 @@ MonoBehaviour:
     instantiationMode: 1
   - dependency: {fileID: 2800000, guid: f3b914696d7d26e4bb764d01050fa049, type: 3}
     instantiationMode: 1
+  - dependency: {fileID: 24100000, guid: 62a84734ebc42844e954f66a5343af71, type: 2}
+    instantiationMode: 0
   - dependency: {fileID: 3812455406125749339, guid: fbdc1f7c5fbe8cf409f50f5aadb6395b, type: 3}
     instantiationMode: 0
   - dependency: {fileID: 2800000, guid: 2fd6421f253b4ef1a19526541f9ffc0c, type: 3}
@@ -71,6 +75,8 @@ MonoBehaviour:
     instantiationMode: 1
   - dependency: {fileID: -944628639613478452, guid: c1e17c586640d0f47988bebd4c5df175, type: 3}
     instantiationMode: 1
+  - dependency: {fileID: 11400000, guid: 79f8b1f1ab9596e45a7248570ff57466, type: 2}
+    instantiationMode: 1
   - dependency: {fileID: 6103896703718122252, guid: addc06ae5a0a5ac4c9b72d7777a3c8ed, type: 3}
     instantiationMode: 0
   - dependency: {fileID: 2800000, guid: f71ccc40d3f507f448f83d73d35ba9ee, type: 3}
@@ -90,6 +96,8 @@ MonoBehaviour:
   - dependency: {fileID: 7400000, guid: bb6702270a45869489454cdee4d2f6f5, type: 2}
     instantiationMode: 1
   - dependency: {fileID: 7400000, guid: 89a0d8dc75199064891b2a99474e85c3, type: 2}
+    instantiationMode: 1
+  - dependency: {fileID: 8300000, guid: 80793d745c439a34486d92c8bd7494ba, type: 3}
     instantiationMode: 1
   - dependency: {fileID: 11400000, guid: f4ca73418b6ae554882064e338f7887b, type: 2}
     instantiationMode: 1

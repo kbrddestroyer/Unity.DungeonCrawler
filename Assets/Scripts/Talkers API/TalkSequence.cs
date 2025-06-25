@@ -9,4 +9,5 @@ public struct TalkSequence
     [SerializeField] public GameObject focusObject;
     [SerializeField] public TMP_Text textObject;
     [SerializeField] public UnityEvent onCharacterDisplay;
+    [SerializeField] public AudioClip audioClip;
 }

@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(AudioSource))]
 public class PlayerMover : MonoBehaviour
 {
     // Animator pre-hashed keys
@@ -26,8 +27,11 @@ public class PlayerMover : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [Header("SFX")]
+    [SerializeField] private AudioClip stepSfx;
     [Header("Requirements")]
     [SerializeField] private Player player;
+    [SerializeField] private AudioSource audioSource;
     
     private float _fCurrentSpeed;
     
@@ -84,15 +88,20 @@ public class PlayerMover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Talker.GlobalLock)
+        if (TalkerBase.GlobalLock)
         {
             animator.SetFloat(Speed,  0);
         }
     }
 
+    public void PlayStepSound()
+    {
+        audioSource.PlayOneShot(stepSfx);
+    }
+    
     private void Update()
     {
-        if (Talker.GlobalLock)
+        if (TalkerBase.GlobalLock)
         {
             return;
         }
@@ -126,6 +135,8 @@ public class PlayerMover : MonoBehaviour
             spriteRenderer = GetComponent<SpriteRenderer>();
         if (!player)
             player = GetComponent<Player>();
+        if (!audioSource)
+            audioSource = GetComponent<AudioSource>();
     }    
 #endif
 }
