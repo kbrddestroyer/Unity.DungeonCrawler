@@ -162,6 +162,7 @@ public class Pathfinding : MonoBehaviour
                 spriteRenderer.flipX = _path.Peek().x < transform.position.x;
         }
     }
+    
 #if UNITY_EDITOR
     private void OnValidate()
     {
