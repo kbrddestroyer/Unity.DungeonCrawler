@@ -13,11 +13,9 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private Vector2Int roomSizeMax;
     [SerializeField, Range(2, 100)] private int corridorWidth;
     [SerializeField, Range(100, 10000)] private uint iterationMax;
-    [SerializeField] private Tilemap wallsMap;
-    [SerializeField] private Tilemap baseTileMap;
+    [SerializeField] private Tilemap tilemap;
     [SerializeField, Range(1, 100)] private int roomCount;
-    [SerializeField] private RuleTile wallTile;
-    [SerializeField] private RuleTile baseTile;
+    [SerializeField] private RuleTile ruleTile;
     [SerializeField] private GameObject player;
     
     [Serializable]
@@ -39,7 +37,6 @@ public class LevelGenerator : MonoBehaviour
         var lBounds = ConvertRoomToWorldPosition(l);
         var rBounds = ConvertRoomToWorldPosition(r);
 
-        // Проверка пересечения прямоугольников
         return !(lBounds.z < rBounds.x || lBounds.x > rBounds.z || 
                  lBounds.w < rBounds.y || lBounds.y > rBounds.w);
     }
@@ -54,7 +51,7 @@ public class LevelGenerator : MonoBehaviour
     {
         var room = new Room
         {
-            position = wallsMap.WorldToCell(player.transform.position),
+            position = tilemap.WorldToCell(player.transform.position),
             bounds = GenerateRoom()
         };
         
@@ -123,7 +120,7 @@ public class LevelGenerator : MonoBehaviour
         {
             for (var w = -widthOffset; w <= widthOffset; w++)
             {
-                wallsMap.SetTile(new Vector3Int(x, y + w, 0), baseTile);
+                tilemap.SetTile(new Vector3Int(x, y + w, 0), ruleTile);
             }
         }
     }
@@ -137,7 +134,7 @@ public class LevelGenerator : MonoBehaviour
         {
             for (var w = -widthOffset; w <= widthOffset; w++)
             {
-                wallsMap.SetTile(new Vector3Int(x + w, y, 0), baseTile);
+                tilemap.SetTile(new Vector3Int(x + w, y, 0), ruleTile);
             }
         }
     }
@@ -148,7 +145,7 @@ public class LevelGenerator : MonoBehaviour
         {
             for (var y = room.position.y + room.bounds.y; y <= room.position.y + room.bounds.w; y++)
             {
-                wallsMap.SetTile(new Vector3Int((int) x, (int) y, 0), baseTile);
+                tilemap.SetTile(new Vector3Int((int) x, (int) y, 0), ruleTile);
             }
         }
     }
@@ -162,7 +159,7 @@ public class LevelGenerator : MonoBehaviour
     public void GenerateNew()
     {
         rooms.Clear();
-        wallsMap.ClearAllTiles();
+        tilemap.ClearAllTiles();
         
         GeneratePlayerStartRoom();
         Generate();
