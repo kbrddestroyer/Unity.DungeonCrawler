@@ -142,7 +142,6 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-#if UNITY_EDITOR
     private void EditorDrawRoom(Room room)
     {
         for (var x = room.position.x + room.bounds.x; x <= room.position.x + room.bounds.z; x++)
@@ -154,11 +153,6 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    private void BuildWalls()
-    {
-        
-    }
-
     private void EditorDraw()
     {
         foreach (var room in rooms)
@@ -167,9 +161,7 @@ public class LevelGenerator : MonoBehaviour
 
     public void GenerateNew()
     {
-        Debug.Log("Drawing test rooms!");
         rooms.Clear();
-        
         wallsMap.ClearAllTiles();
         
         GeneratePlayerStartRoom();
@@ -178,6 +170,7 @@ public class LevelGenerator : MonoBehaviour
         EditorDraw();
     }
 
+#if UNITY_EDITOR
     private void OnValidate()
     {
         if (!player)
