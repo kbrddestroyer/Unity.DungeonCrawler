@@ -17,17 +17,32 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField, Range(1, 100)] private int roomCount;
     [SerializeField] private RuleTile ruleTile;
     [SerializeField] private GameObject player;
+
+    private struct Vector4Int
+    {
+        // ReSharper disable InconsistentNaming
+        public int x, y, z, w;
+        // ReSharper restore InconsistentNaming
+
+        public Vector4Int(int x, int y, int z, int w)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = w;
+        }
+    }
     
     [Serializable]
     private struct Room
     {
         [FormerlySerializedAs("Position")] public Vector3Int position;
-        [FormerlySerializedAs("Bounds")] public Vector4 bounds;
+        [FormerlySerializedAs("Bounds")] public Vector4Int bounds;
     }
 
     [SerializeField] private List<Room> rooms = new();
     
-    private static Vector4 ConvertRoomToWorldPosition(Room room) => new(
+    private static Vector4Int ConvertRoomToWorldPosition(Room room) => new(
         room.position.x + room.bounds.x, room.position.y + room.bounds.y,
         room.position.x + room.bounds.z, room.position.y + room.bounds.w
     );
@@ -41,7 +56,7 @@ public class LevelGenerator : MonoBehaviour
                  lBounds.w < rBounds.y || lBounds.y > rBounds.w);
     }
     
-    private Vector4 GenerateRoom() => new(
+    private Vector4Int GenerateRoom() => new(
         -Random.Range(roomSizeMin.x / 2, roomSizeMax.x / 2), -Random.Range(roomSizeMin.y / 2, roomSizeMax.y / 2), Random.Range(roomSizeMin.x / 2, roomSizeMax.x / 2),Random.Range(roomSizeMin.y / 2, roomSizeMax.y / 2)
     );
     
@@ -97,63 +112,49 @@ public class LevelGenerator : MonoBehaviour
         var start = room1.position;
         var end = room2.position;
         
-        var horizontalFirst = Random.value > 0.5f;
-
-        if (horizontalFirst)
-        {
-            CreateHorizontalCorridor(start.x, end.x, start.y);
-            CreateVerticalCorridor(start.y, end.y, end.x);
-        }
-        else
-        {
-            CreateVerticalCorridor(start.y, end.y, start.x);
-            CreateHorizontalCorridor(start.x, end.x, end.y);
-        }
-    }
-    
-    private void CreateHorizontalCorridor(int startX, int endX, int y)
-    {
-        var step = startX < endX ? 1 : -1;
         var widthOffset = corridorWidth / 2;
-
-        for (var x = startX; x != endX + step; x += step)
-        {
-            for (var w = -widthOffset; w <= widthOffset; w++)
-            {
-                tilemap.SetTile(new Vector3Int(x, y + w, 0), ruleTile);
-            }
-        }
+        
+        var stepX = start.x < end.x ? 1 : -1;
+        var stepY = start.y < end.y ? 1 : -1;
+        
+        FillBox(new Vector4Int(
+            start.x, 
+            start.y - widthOffset, 
+            end.x + widthOffset * stepX, 
+            start.y + widthOffset)
+        );
+        FillBox(new Vector4Int(
+            end.x - widthOffset, 
+            start.y + widthOffset * stepY, 
+            end.x + widthOffset, 
+            end.y)
+        );
     }
 
-    private void CreateVerticalCorridor(int startY, int endY, int x)
+    private void FillBox(Vector4Int bounds)
     {
-        var step = startY < endY ? 1 : -1;
-        var widthOffset = corridorWidth / 2;
-
-        for (var y = startY; y != endY + step; y += step)
+        var stepX = bounds.x < bounds.z ? 1 : -1;
+        var stepY = bounds.y < bounds.w ? 1 : -1;
+        
+        for (var x = bounds.x; x != bounds.z + stepX; x += stepX)
         {
-            for (var w = -widthOffset; w <= widthOffset; w++)
+            for (var y = bounds.y; y != bounds.w + stepY; y += stepY)
             {
-                tilemap.SetTile(new Vector3Int(x + w, y, 0), ruleTile);
+                tilemap.SetTile(new Vector3Int(x, y, 0), ruleTile);
             }
         }
     }
 
-    private void EditorDrawRoom(Room room)
+    private void DrawRoom(Room room)
     {
-        for (var x = room.position.x + room.bounds.x; x <= room.position.x + room.bounds.z; x++)
-        {
-            for (var y = room.position.y + room.bounds.y; y <= room.position.y + room.bounds.w; y++)
-            {
-                tilemap.SetTile(new Vector3Int((int) x, (int) y, 0), ruleTile);
-            }
-        }
+        var bounds = ConvertRoomToWorldPosition(room);
+        FillBox(bounds);
     }
 
-    private void EditorDraw()
+    private void DrawAll()
     {
         foreach (var room in rooms)
-            EditorDrawRoom(room);
+            DrawRoom(room);
     }
 
     public void GenerateNew()
@@ -164,7 +165,7 @@ public class LevelGenerator : MonoBehaviour
         GeneratePlayerStartRoom();
         Generate();
         GenerateCorridors();
-        EditorDraw();
+        DrawAll();
     }
 
 #if UNITY_EDITOR
