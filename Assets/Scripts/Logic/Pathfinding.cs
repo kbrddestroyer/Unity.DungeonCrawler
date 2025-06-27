@@ -24,7 +24,7 @@ public class Pathfinding : MonoBehaviour
     [SerializeField] private UnityEvent onStartMove;
     [SerializeField] private UnityEvent onReachedDestination;
     
-    private Stack<Vector3> _path = new Stack<Vector3>();
+    private Stack<Vector3> _path;
     
     private class Waypoint {
         public Vector3Int Point;
@@ -38,12 +38,17 @@ public class Pathfinding : MonoBehaviour
             Weight = Vector2.Distance(walls.LocalToWorld(point), player.transform.position);
         }
     }
+
+    private void Start()
+    {
+        _path = new Stack<Vector3>();
+    }
     
     private class PriorityQueue<TOb> : Dictionary<float, TOb> { 
         public TOb Minimum()
         {
             if (Count == 0)
-                return default(TOb);
+                return default;
 
             var minimum = Keys.ToList()[0];
             minimum = Keys.ToList().Prepend(minimum).Min();
@@ -68,7 +73,6 @@ public class Pathfinding : MonoBehaviour
         var start = new Waypoint(sourceTile, null, ref walls, ref player);
 
         open[start.Weight] = start;
-
         
         while (open.Count > 0)
         {
@@ -94,8 +98,16 @@ public class Pathfinding : MonoBehaviour
                         continue;
 
                     var pos = new Vector3Int(x, y, p.Point.z);
-                    if (walls.GetTile(pos)) continue;
-                   
+                    var tile = walls.GetTile(pos);
+                    if (tile)
+                    {
+                        TileData tileData = new();
+                        tile.GetTileData(pos, walls, ref tileData);
+                        if (
+                            tileData.colliderType != Tile.ColliderType.None
+                        ) continue;
+                    }
+
                     var point = new Waypoint(pos, p, ref walls, ref player);
                     open[point.Weight] = point;
                 }
@@ -107,10 +119,11 @@ public class Pathfinding : MonoBehaviour
 
     protected Stack<Vector3> GetPath(Vector3 destination)
     {
-        var arr = GetPathFromDestinationCoordinates(destination);
-        if (arr == null) return null;
         var waypoints = new Stack<Vector3>();
-
+        
+        var arr = GetPathFromDestinationCoordinates(destination);
+        
+        if (arr == null) return waypoints;
         while (arr != null)
         {
             waypoints.Push(walls.CellToLocal(arr.Point) + walls.cellSize * 0.5f);
@@ -141,6 +154,10 @@ public class Pathfinding : MonoBehaviour
             if (_path.Count == 0 && distance > stopDistance)
             {
                 _path = GetPath(player.transform.position);
+
+                if (_path == null)
+                    return;
+                
                 if (_path.Count == 0) return;
                 
                 onStartMove.Invoke();
@@ -174,9 +191,9 @@ public class Pathfinding : MonoBehaviour
         
         if (!spriteRenderer)
             spriteRenderer = GetComponent<SpriteRenderer>();
-        
+
         if (!walls)
-            Debug.LogWarning($"Pathfinding component on {gameObject.name} has no walls tilemap reference set!");
+            walls = GameObject.FindGameObjectWithTag("Walls").GetComponent<Tilemap>();
     }
 
     private void OnDrawGizmosSelected()

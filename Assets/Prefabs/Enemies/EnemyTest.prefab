@@ -214,11 +214,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseHealth: 10
   correction: 0.6
-  isInvincible: 1
+  isInvincible: 0
   onDeathEvent:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 4073304241398735488}
+  bestiaryRecord: {fileID: 11400000, guid: 79f8b1f1ab9596e45a7248570ff57466, type: 2}
+  bestiary: {fileID: 0}
   attack:
     fDamage: 1
     fDamageDistance: 2.47

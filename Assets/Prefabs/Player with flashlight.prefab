@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1371184371364847126, guid: 60653875ff1dd504591f16c964179302, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3531254902000701385, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -47,6 +51,10 @@ PrefabInstance:
     - target: {fileID: 3531254902000701385, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405418588402420927, guid: 60653875ff1dd504591f16c964179302, type: 3}
+      propertyPath: enemy.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 7034121963377509218, guid: 60653875ff1dd504591f16c964179302, type: 3}
       propertyPath: m_Name
