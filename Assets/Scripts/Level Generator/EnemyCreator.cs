@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class EnemyCreator : MonoBehaviour
@@ -6,9 +7,22 @@ public class EnemyCreator : MonoBehaviour
     [SerializeField, Range(0f, 10f)] private float spawnSafeZoneRadius;
     [Tooltip("Spawn random range (min - max)")]
     [SerializeField] private Vector2Int spawnCountRate;
-    [SerializeField] private GameObject spawnable;
-    
-    protected virtual void SpawnEnemy(Vector3 position) => Instantiate(spawnable, position, Quaternion.identity);
+    [SerializeField] private GameObject[] spawnables;
+
+    public float SpawnRadius
+    {
+        get => spawnRadius;
+        set
+        {
+            spawnRadius = value;
+            
+            if (spawnSafeZoneRadius > spawnRadius)
+                spawnSafeZoneRadius = spawnRadius;
+        }
+    }
+
+    protected virtual void SpawnEnemy(Vector3 position) => Instantiate(spawnables[
+        (int) (Random.value * (spawnables.Length - 1))], position, Quaternion.identity);
 
     private Vector3 GenerateRandomPosition(int iter)
     {
@@ -31,7 +45,7 @@ public class EnemyCreator : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        if (!spawnable)
+        if (spawnables.Length == 0)
             Debug.LogWarning($"Spawner {gameObject.name} has no spawnable prefab assigned.");
         if (spawnRadius == 0)
             Debug.LogWarning($"Spawner {gameObject.name} has no spawn radius set.");

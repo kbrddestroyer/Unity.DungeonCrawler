@@ -16,6 +16,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField, Range(1, 100)] private int roomCount;
     [SerializeField] private RuleTile ruleTile;
     [SerializeField] private GameObject player;
+    [SerializeField] private EnemyCreator spawnerPrefab;
 
     private struct Vector4Int
     {
@@ -40,6 +41,14 @@ public class LevelGenerator : MonoBehaviour
     }
 
     [SerializeField] private List<Room> rooms = new();
+
+    private void Start()
+    {
+        GenerateNew();
+        
+        foreach (var room in rooms)
+            GenerateSpawner(room);
+    }
     
     private static Vector4Int ConvertRoomToWorldPosition(Room room) => new(
         room.position.x + room.Bounds.x, room.position.y + room.Bounds.y,
@@ -144,6 +153,28 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
+    private void GenerateSpawner(Room room)
+    {
+        var bounds = ConvertRoomToWorldPosition(room);
+        
+        var dimensions = new Vector2(
+            (room.Bounds.x + room.Bounds.z) / 2.0f,
+            (room.Bounds.y + room.Bounds.w) / 2.0f
+        );
+
+        var center = new Vector3(
+            (bounds.x + bounds.z) / 2.0f,
+            (bounds.y + bounds.w) / 2.0f,
+            0
+        );
+        
+        var spawner = Instantiate(spawnerPrefab.gameObject, center, Quaternion.identity);
+        var creatorScriptRef = spawner.GetComponent<EnemyCreator>();
+        
+        creatorScriptRef.SpawnRadius = Math.Min(dimensions.x, dimensions.y);
+        creatorScriptRef.SpawnAll();
+    }
+
     private void DrawRoom(Room room)
     {
         var bounds = ConvertRoomToWorldPosition(room);
@@ -166,7 +197,6 @@ public class LevelGenerator : MonoBehaviour
         GenerateCorridors();
         DrawAll();
     }
-
 #if UNITY_EDITOR
     private void OnValidate()
     {

@@ -10,6 +10,7 @@ TagManager:
   - metaprogress
   - QuestGUIRoot
   - Bounds
+  - Walls
   layers:
   - Default
   - TransparentFX
