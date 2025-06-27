@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -36,15 +35,15 @@ public class LevelGenerator : MonoBehaviour
     [Serializable]
     private struct Room
     {
-        [FormerlySerializedAs("Position")] public Vector3Int position;
-        [FormerlySerializedAs("Bounds")] public Vector4Int bounds;
+        public Vector3Int position;
+        public Vector4Int Bounds;
     }
 
     [SerializeField] private List<Room> rooms = new();
     
     private static Vector4Int ConvertRoomToWorldPosition(Room room) => new(
-        room.position.x + room.bounds.x, room.position.y + room.bounds.y,
-        room.position.x + room.bounds.z, room.position.y + room.bounds.w
+        room.position.x + room.Bounds.x, room.position.y + room.Bounds.y,
+        room.position.x + room.Bounds.z, room.position.y + room.Bounds.w
     );
 
     private static bool Overlaps(Room l, Room r)
@@ -67,7 +66,7 @@ public class LevelGenerator : MonoBehaviour
         var room = new Room
         {
             position = tilemap.WorldToCell(player.transform.position),
-            bounds = GenerateRoom()
+            Bounds = GenerateRoom()
         };
         
         rooms.Add(room);
@@ -82,7 +81,7 @@ public class LevelGenerator : MonoBehaviour
             var room = new Room
             {
                 position = GenerateRoomPosition(),
-                bounds = GenerateRoom()
+                Bounds = GenerateRoom()
             };
             counter++;
 
