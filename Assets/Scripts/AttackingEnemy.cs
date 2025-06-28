@@ -16,8 +16,15 @@ public class AttackingEnemy : EnemyBase
         result?.ApplyDamage(CalculateDamage());
     }
 
-    public void ProcessAttack() => animator.SetBool(AttackKey, true);
-    public void StopAttack() => animator.SetBool(AttackKey, false);
+    public void ProcessAttack()
+    {
+        animator.SetBool(AttackKey, true);
+    }
+
+    public void StopAttack()
+    {
+        animator.SetBool(AttackKey, false);
+    }
     
 #if UNITY_EDITOR
     private void OnValidate()

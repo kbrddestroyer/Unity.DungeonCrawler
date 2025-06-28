@@ -1,0 +1,17 @@
+{
+    "name": "LevelGenerator",
+    "rootNamespace": "",
+    "references": [
+        "GUID:613783dc1674e844b87788ea74ede0f6",
+        "GUID:8a366f52ad4dc254185ed13a4cbe413a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

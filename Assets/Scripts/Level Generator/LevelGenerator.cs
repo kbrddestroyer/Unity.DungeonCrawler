@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,7 +22,7 @@ public class LevelGenerator : MonoBehaviour
     private struct Vector4Int
     {
         // ReSharper disable InconsistentNaming
-        public int x, y, z, w;
+        public readonly int x, y, z, w;
         // ReSharper restore InconsistentNaming
 
         public Vector4Int(int x, int y, int z, int w)
@@ -187,6 +188,11 @@ public class LevelGenerator : MonoBehaviour
             DrawRoom(room);
     }
 
+    private IEnumerator GenerateNewAsync()
+    {
+        
+    }
+    
     public void GenerateNew()
     {
         rooms.Clear();
@@ -197,6 +203,7 @@ public class LevelGenerator : MonoBehaviour
         GenerateCorridors();
         DrawAll();
     }
+    
 #if UNITY_EDITOR
     private void OnValidate()
     {

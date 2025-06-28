@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
@@ -37,13 +38,12 @@ public class EnemyBase : MonoBehaviour, IDamagable
     public void Die()
     {
         onDeathEvent.Invoke();
-        OnDeath();
-    }
-
-    public virtual void OnDeath()
-    {
         animator.SetTrigger(Death);
         bestiary?.AddItem(bestiaryRecord);
+    }
+    
+    public virtual void OnDeath()
+    {
         Destroy(gameObject);
     }
     
@@ -59,6 +59,8 @@ public class EnemyBase : MonoBehaviour, IDamagable
 
     public virtual void OnDamaged(float fDamageApplied)
     {
+        if (IsDead) return;
+        
         animator.SetTrigger(Damage);
         Debug.Log($"Damaged with {fDamageApplied} damage");
     }
