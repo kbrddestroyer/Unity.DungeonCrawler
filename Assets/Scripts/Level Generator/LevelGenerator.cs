@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class LevelGenerator : MonoBehaviour
 {
+    public static LevelGenerator Instance { get; private set; }
+
     [SerializeField] private Vector2Int mapDimensions;
     [SerializeField] private Vector2Int roomSizeMin;
     [SerializeField] private Vector2Int roomSizeMax;
@@ -81,6 +83,9 @@ public class LevelGenerator : MonoBehaviour
         
         rooms.Add(room);
     }
+    
+    private void OnEnable() => Instance = this;
+    private void OnDisable() => Instance = null;
     
     private void Generate()
     {
@@ -185,12 +190,9 @@ public class LevelGenerator : MonoBehaviour
     private void DrawAll()
     {
         foreach (var room in rooms)
+        {
             DrawRoom(room);
-    }
-
-    private IEnumerator GenerateNewAsync()
-    {
-        
+        }
     }
     
     public void GenerateNew()
